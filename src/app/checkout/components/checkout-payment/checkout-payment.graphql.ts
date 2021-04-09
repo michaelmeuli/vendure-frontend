@@ -13,3 +13,11 @@ export const ADD_PAYMENT = gql`
     ${CART_FRAGMENT}
     ${ERROR_RESULT_FRAGMENT}
 `;
+
+export const GET_ACTIVE_ORDER_ID = gql`
+    query GetActiveOrder {
+        activeOrder {
+            id
+        }
+    }
+`;

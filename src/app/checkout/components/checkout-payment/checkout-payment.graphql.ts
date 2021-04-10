@@ -15,7 +15,7 @@ export const ADD_PAYMENT = gql`
 `;
 
 export const GET_ACTIVE_ORDER_ID = gql`
-    query GetActiveOrder {
+    query GetActiveOrderId {
         activeOrder {
             id
         }

@@ -2916,6 +2916,12 @@ export namespace AddPayment {
   export type AddPaymentToOrder = (NonNullable<AddPaymentMutation['addPaymentToOrder']>);
 }
 
+export namespace GetActiveOrderId {
+  export type Variables = GetActiveOrderIdQueryVariables;
+  export type Query = GetActiveOrderIdQuery;
+  export type ActiveOrder = (NonNullable<GetActiveOrderIdQuery['activeOrder']>);
+}
+
 export namespace GetNextOrderStates {
   export type Variables = GetNextOrderStatesQueryVariables;
   export type Query = GetNextOrderStatesQuery;
@@ -3415,6 +3421,17 @@ export type AddPaymentMutation = (
     { __typename?: 'PaymentFailedError' }
     & ErrorResult_PaymentFailedError_Fragment
   ) }
+);
+
+export type GetActiveOrderIdQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetActiveOrderIdQuery = (
+  { __typename?: 'Query' }
+  & { activeOrder?: Maybe<(
+    { __typename?: 'Order' }
+    & Pick<Order, 'id'>
+  )> }
 );
 
 export type GetNextOrderStatesQueryVariables = Exact<{ [key: string]: never; }>;

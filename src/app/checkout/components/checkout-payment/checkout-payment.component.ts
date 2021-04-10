@@ -1,11 +1,14 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 import { AddPayment } from '../../../common/generated-types';
+import { GetActiveOrderId } from '../../../common/generated-types';
 import { DataService } from '../../../core/providers/data/data.service';
 import { StateService } from '../../../core/providers/state/state.service';
 
 import { ADD_PAYMENT } from './checkout-payment.graphql';
+import { GET_ACTIVE_ORDER_ID } from './checkout-payment.graphql';
 
 @Component({
     selector: 'vsf-checkout-payment',
@@ -13,16 +16,26 @@ import { ADD_PAYMENT } from './checkout-payment.graphql';
     styleUrls: ['./checkout-payment.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckoutPaymentComponent {
+export class CheckoutPaymentComponent implements OnInit {
     cardNumber: string;
     expMonth: number;
     expYear: number;
     paymentErrorMessage: string | undefined;
+    activeOrderId: string | undefined;
 
     constructor(private dataService: DataService,
-                private stateService: StateService,
-                private router: Router,
-                private route: ActivatedRoute) { }
+        private stateService: StateService,
+        private router: Router,
+        private route: ActivatedRoute) { }
+
+    ngOnInit() {
+        this.dataService.query<GetActiveOrderId.Query>(GET_ACTIVE_ORDER_ID).pipe(
+            map(data => data.activeOrder?.id)).
+            subscribe((activeOrderId) => {
+                this.activeOrderId = activeOrderId;
+                console.log('activeOrderId: ', this.activeOrderId);
+            });
+    }
 
     getMonths(): number[] {
         return Array.from({ length: 12 }).map((_, i) => i + 1);

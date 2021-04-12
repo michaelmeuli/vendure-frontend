@@ -1,14 +1,14 @@
+import { GetClientTokenQuery } from './../../../common/generated-types';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 
-import { AddPayment } from '../../../common/generated-types';
-import { GetActiveOrderId } from '../../../common/generated-types';
+import { AddPayment, GetActiveOrderId, GetClientToken } from '../../../common/generated-types';
 import { DataService } from '../../../core/providers/data/data.service';
 import { StateService } from '../../../core/providers/state/state.service';
 
 import { ADD_PAYMENT } from './checkout-payment.graphql';
-import { GET_ACTIVE_ORDER_ID } from './checkout-payment.graphql';
+import { GET_ACTIVE_ORDER_ID, GET_CLIENT_TOKEN } from './checkout-payment.graphql';
 
 @Component({
     selector: 'vsf-checkout-payment',
@@ -21,7 +21,8 @@ export class CheckoutPaymentComponent implements OnInit {
     expMonth: number;
     expYear: number;
     paymentErrorMessage: string | undefined;
-    activeOrderId: string | undefined;
+    activeOrderId: string;
+    clientToken: string;
 
     constructor(private dataService: DataService,
         private stateService: StateService,
@@ -32,8 +33,14 @@ export class CheckoutPaymentComponent implements OnInit {
         this.dataService.query<GetActiveOrderId.Query>(GET_ACTIVE_ORDER_ID).pipe(
             map(data => data.activeOrder?.id)).
             subscribe((activeOrderId) => {
-                this.activeOrderId = activeOrderId;
+                this.activeOrderId = activeOrderId as string;
                 console.log('activeOrderId: ', this.activeOrderId);
+                this.dataService.query<GetClientToken.Query, GetClientToken.Variables>(GET_CLIENT_TOKEN, {
+                    orderId: this.activeOrderId
+                }).subscribe((data) => {
+                    this.clientToken = data.generateBraintreeClientToken;
+                    console.log('clientToken: ', this.clientToken);
+                });
             });
     }
 

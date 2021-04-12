@@ -1360,6 +1360,7 @@ export type Query = {
   products: ProductList;
   /** Search Products based on the criteria set by the `SearchInput` */
   search: SearchResponse;
+  generateBraintreeClientToken: Scalars['String'];
 };
 
 
@@ -1397,6 +1398,11 @@ export type QueryProductsArgs = {
 
 export type QuerySearchArgs = {
   input: SearchInput;
+};
+
+
+export type QueryGenerateBraintreeClientTokenArgs = {
+  orderId: Scalars['ID'];
 };
 
 export type Refund = Node & {
@@ -2922,6 +2928,11 @@ export namespace GetActiveOrderId {
   export type ActiveOrder = (NonNullable<GetActiveOrderIdQuery['activeOrder']>);
 }
 
+export namespace GetClientToken {
+  export type Variables = GetClientTokenQueryVariables;
+  export type Query = GetClientTokenQuery;
+}
+
 export namespace GetNextOrderStates {
   export type Variables = GetNextOrderStatesQueryVariables;
   export type Query = GetNextOrderStatesQuery;
@@ -3432,6 +3443,16 @@ export type GetActiveOrderIdQuery = (
     { __typename?: 'Order' }
     & Pick<Order, 'id'>
   )> }
+);
+
+export type GetClientTokenQueryVariables = Exact<{
+  orderId: Scalars['ID'];
+}>;
+
+
+export type GetClientTokenQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'generateBraintreeClientToken'>
 );
 
 export type GetNextOrderStatesQueryVariables = Exact<{ [key: string]: never; }>;

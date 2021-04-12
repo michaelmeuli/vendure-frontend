@@ -1119,6 +1119,7 @@ type Query {
     products(options: ProductListOptions): ProductList!
     "Search Products based on the criteria set by the `SearchInput`"
     search(input: SearchInput!): SearchResponse!
+    generateBraintreeClientToken(orderId: ID!): String!
 }
 
 type Refund implements Node {

@@ -21,3 +21,9 @@ export const GET_ACTIVE_ORDER_ID = gql`
         }
     }
 `;
+
+export const GET_CLIENT_TOKEN = gql`
+    query GetClientToken($orderId: ID!) {
+        generateBraintreeClientToken(orderId: $orderId)
+    }
+`;

@@ -1,7 +1,7 @@
-import { GetClientTokenQuery } from './../../../common/generated-types';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
+import * as dropin from 'braintree-web-drop-in';
 
 import { AddPayment, GetActiveOrderId, GetClientToken } from '../../../common/generated-types';
 import { DataService } from '../../../core/providers/data/data.service';
@@ -23,6 +23,8 @@ export class CheckoutPaymentComponent implements OnInit {
     paymentErrorMessage: string | undefined;
     activeOrderId: string;
     clientToken: string;
+    dropinInstance: any;
+    paymentResult: any;
 
     constructor(private dataService: DataService,
         private stateService: StateService,
@@ -40,6 +42,19 @@ export class CheckoutPaymentComponent implements OnInit {
                 }).subscribe((data) => {
                     this.clientToken = data.generateBraintreeClientToken;
                     console.log('clientToken: ', this.clientToken);
+                    dropin.create({
+                        authorization: this.clientToken,
+                        container: '#dropin-container',
+                    }, (err, dropinInstance) => {
+                        if (err) {
+                          // Handle any errors that might've occurred when creating Drop-in
+                          console.error(err);
+                          return;
+                        }
+                        this.dropinInstance = dropinInstance;
+                        this.paymentResult = dropinInstance?.requestPaymentMethod();
+                        console.log('paymentResult: ', this.paymentResult);
+                      });
                 });
             });
     }
@@ -56,10 +71,8 @@ export class CheckoutPaymentComponent implements OnInit {
     completeOrder() {
         this.dataService.mutate<AddPayment.Mutation, AddPayment.Variables>(ADD_PAYMENT, {
             input: {
-                method: 'example-payment-provider',
-                metadata: {
-                    foo: 'bar',
-                },
+                method: 'braintree',
+                metadata: this.paymentResult
             },
         })
             .subscribe(async ({ addPaymentToOrder }) => {

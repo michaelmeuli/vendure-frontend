@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import * as dropin from 'braintree-web-drop-in';
+import { PaymentMethodPayload } from 'braintree-web-drop-in';
 
 import { AddPayment, GetActiveOrderId, GetClientToken } from '../../../common/generated-types';
 import { DataService } from '../../../core/providers/data/data.service';
@@ -66,11 +67,11 @@ export class CheckoutPaymentComponent implements OnInit {
         return Array.from({ length: 10 }).map((_, i) => year + i);
     }
     
-    completOrder() {
-        this.dropinInstance.requestPaymentMethod().then(paymentResult => completeOrderMutation(paymentResult));
+    completeOrder() {
+        this.dropinInstance.requestPaymentMethod().then((paymentResult: PaymentMethodPayload) => this.completeOrderMutation(paymentResult));
     }
                         
-    completeOrderMutation(paymentResult) {
+    completeOrderMutation(paymentResult: PaymentMethodPayload) {
         console.log('paymentResultCC: ', paymentResult);
         this.dataService.mutate<AddPayment.Mutation, AddPayment.Variables>(ADD_PAYMENT, {
             input: {

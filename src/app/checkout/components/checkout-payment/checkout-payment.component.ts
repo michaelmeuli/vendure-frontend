@@ -52,8 +52,6 @@ export class CheckoutPaymentComponent implements OnInit {
                           return;
                         }
                         this.dropinInstance = dropinInstance;
-                        this.paymentResult = dropinInstance?.requestPaymentMethod();
-                        console.log('paymentResult: ', this.paymentResult);
                       });
                 });
             });
@@ -67,12 +65,17 @@ export class CheckoutPaymentComponent implements OnInit {
         const year = new Date().getFullYear();
         return Array.from({ length: 10 }).map((_, i) => year + i);
     }
-
-    completeOrder() {
+    
+    completOrder() {
+        this.dropinInstance.requestPaymentMethod().then(paymentResult => completeOrderMutation(paymentResult));
+    }
+                        
+    completeOrderMutation(paymentResult) {
+        console.log('paymentResultCC: ', paymentResult);
         this.dataService.mutate<AddPayment.Mutation, AddPayment.Variables>(ADD_PAYMENT, {
             input: {
                 method: 'braintree',
-                metadata: this.paymentResult
+                metadata: paymentResult
             },
         })
             .subscribe(async ({ addPaymentToOrder }) => {

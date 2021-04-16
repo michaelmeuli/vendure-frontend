@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, switchMap } from 'rxjs/operators';
 import * as dropin from 'braintree-web-drop-in';
 import { PaymentMethodPayload } from 'braintree-web-drop-in';
+import { Observable } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 
 import { AddPayment, GetActiveOrderId, GetClientToken } from '../../../common/generated-types';
 import { DataService } from '../../../core/providers/data/data.service';
@@ -26,7 +27,8 @@ export class CheckoutPaymentComponent implements OnInit {
     clientToken: string;
     dropinInstance: any;
     paymentResult: any;
-    clientToken$: Observable<String>;
+    clientToken$: Observable<string>;
+    activeOrderId$: Observable<string | undefined>;
 
     constructor(private dataService: DataService,
         private stateService: StateService,
@@ -34,72 +36,36 @@ export class CheckoutPaymentComponent implements OnInit {
         private route: ActivatedRoute) { }
 
     ngOnInit() {
+        this.activeOrderId$ = this.dataService.query<GetActiveOrderId.Query>(GET_ACTIVE_ORDER_ID).pipe(
+            map(data => data.activeOrder && data.activeOrder.id)
+        );
 
-        this.dataService.query<GetActiveOrderId.Query>(GET_ACTIVE_ORDER_ID)
-            .pipe(
-            map(data => data.activeOrder?.id),
-            switchMap(activeOrderId => 
-                this.dataService.query<GetClientToken.Query, GetClientToken.Variables>(GET_CLIENT_TOKEN, { orderId: activeOrderId as string }))
-            )
-            .subscribe((data) => {
-                this.clientToken = data.generateBraintreeClientToken;
-                console.log('clientToken: ', this.clientToken);
-            }
-            );
+        this.clientToken$ = this.dataService.query<GetClientToken.Query, GetClientToken.Variables>(GET_CLIENT_TOKEN, {
+            orderId: this.activeOrderId
+        }).pipe(
+            map(data => data.generateBraintreeClientToken)
+        );
 
-            this.clientToken$ = this.dataService.query<GetClientToken.Query, GetClientToken.Variables>(GET_SHIPPING_ADDRESS).pipe(
-                map(data => data.activeOrder && data.activeOrder.shippingAddress),
-
-            this.eligibleShippingMethods$ = this.shippingAddress$.pipe(
-                switchMap(() => this.dataService.query<GetEligibleShippingMethods.Query>(GET_ELIGIBLE_SHIPPING_METHODS)),
-                map(data => data.eligibleShippingMethods),
-            );
-
-            subscribe((activeOrderId) => {
-                this.activeOrderId = activeOrderId as string;
-                console.log('activeOrderId: ', this.activeOrderId);
-                this.dataService.query<GetClientToken.Query, GetClientToken.Variables>(GET_CLIENT_TOKEN, {
-                    orderId: this.activeOrderId
-                }).subscribe((data) => {
-                    this.clientToken = data.generateBraintreeClientToken;
-                    console.log('clientToken: ', this.clientToken);
-                    dropin.create({
-                        authorization: this.clientToken,
-                        container: '#dropin-container',
-                    }, (err, dropinInstance) => {
-                        if (err) {
-                          // Handle any errors that might've occurred when creating Drop-in
-                          console.error(err);
-                          return;
-                        }
-                        this.dropinInstance = dropinInstance;
-                      });
-                });
+        this.activeOrderId$.pipe(
+            switchMap(activeOrderId => this.dataService.query<GetClientToken.Query, GetClientToken.Variables>(GET_CLIENT_TOKEN, {
+                orderId: activeOrderId as string
+            })),
+            take(1)
+        ).subscribe((data) => {
+            this.clientToken = data.generateBraintreeClientToken;
+            console.log('clientToken: ', this.clientToken);
+            dropin.create({
+                authorization: this.clientToken,
+                container: '#dropin-container',
+            }, (err, dropinInstance) => {
+                if (err) {
+                    // Handle any errors that might've occurred when creating Drop-in
+                    console.error(err);
+                    return;
+                }
+                this.dropinInstance = dropinInstance;
             });
-
-        this.dataService.query<GetActiveOrderId.Query>(GET_ACTIVE_ORDER_ID).pipe(
-            map(data => data.activeOrder?.id)).
-            subscribe((activeOrderId) => {
-                this.activeOrderId = activeOrderId as string;
-                console.log('activeOrderId: ', this.activeOrderId);
-                this.dataService.query<GetClientToken.Query, GetClientToken.Variables>(GET_CLIENT_TOKEN, {
-                    orderId: this.activeOrderId
-                }).subscribe((data) => {
-                    this.clientToken = data.generateBraintreeClientToken;
-                    console.log('clientToken: ', this.clientToken);
-                    dropin.create({
-                        authorization: this.clientToken,
-                        container: '#dropin-container',
-                    }, (err, dropinInstance) => {
-                        if (err) {
-                          // Handle any errors that might've occurred when creating Drop-in
-                          console.error(err);
-                          return;
-                        }
-                        this.dropinInstance = dropinInstance;
-                      });
-                });
-            });
+        });
     }
 
     getMonths(): number[] {
@@ -110,11 +76,11 @@ export class CheckoutPaymentComponent implements OnInit {
         const year = new Date().getFullYear();
         return Array.from({ length: 10 }).map((_, i) => year + i);
     }
-    
+
     completeOrder() {
         this.dropinInstance.requestPaymentMethod().then((paymentResult: PaymentMethodPayload) => this.completeOrderMutation(paymentResult));
     }
-                        
+
     completeOrderMutation(paymentResult: PaymentMethodPayload) {
         console.log('paymentResultCC: ', paymentResult);
         this.dataService.mutate<AddPayment.Mutation, AddPayment.Variables>(ADD_PAYMENT, {

@@ -13,3 +13,17 @@ export const ADD_PAYMENT = gql`
     ${CART_FRAGMENT}
     ${ERROR_RESULT_FRAGMENT}
 `;
+
+export const GET_ACTIVE_ORDER_ID = gql`
+    query GetActiveOrderId {
+        activeOrder {
+            id
+        }
+    }
+`;
+
+export const GET_CLIENT_TOKEN = gql`
+    query GetClientToken($orderId: ID!) {
+        generateBraintreeClientToken(orderId: $orderId)
+    }
+`;

@@ -5,12 +5,11 @@ import { PaymentMethodPayload } from 'braintree-web-drop-in';
 import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 
-import { AddPayment, GetActiveOrderId, GetClientToken } from '../../../common/generated-types';
+import { AddPayment, GetEligiblePaymentMethods, GetActiveOrderId, GetClientToken } from '../../../common/generated-types';
 import { DataService } from '../../../core/providers/data/data.service';
 import { StateService } from '../../../core/providers/state/state.service';
 
-import { ADD_PAYMENT } from './checkout-payment.graphql';
-import { GET_ACTIVE_ORDER_ID, GET_CLIENT_TOKEN } from './checkout-payment.graphql';
+import { ADD_PAYMENT, GET_ELIGIBLE_PAYMENT_METHODS } from './checkout-payment.graphql';
 
 @Component({
     selector: 'vsf-checkout-payment',
@@ -23,11 +22,12 @@ export class CheckoutPaymentComponent implements OnInit {
     clientToken: string;
     dropinInstance: any;
     activeOrderId$: Observable<string | undefined>;
+    paymentMethods$: Observable<GetEligiblePaymentMethods.EligiblePaymentMethods[]>
 
     constructor(private dataService: DataService,
-        private stateService: StateService,
-        private router: Router,
-        private route: ActivatedRoute) { }
+                private stateService: StateService,
+                private router: Router,
+                private route: ActivatedRoute) { }
 
     ngOnInit() {
         this.activeOrderId$ = this.dataService.query<GetActiveOrderId.Query>(GET_ACTIVE_ORDER_ID).pipe(
@@ -46,6 +46,9 @@ export class CheckoutPaymentComponent implements OnInit {
                 container: '#dropin-container',
             }).then((dropinInstance: any)  => this.dropinInstance = dropinInstance);
         });
+        
+        this.paymentMethods$ = this.dataService.query<GetEligiblePaymentMethods.Query>(GET_ELIGIBLE_PAYMENT_METHODS)
+            .pipe(map(res => res.eligiblePaymentMethods));
     }
 
     completeOrder() {

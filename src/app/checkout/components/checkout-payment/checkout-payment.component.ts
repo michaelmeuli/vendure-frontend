@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as dropin from 'braintree-web-drop-in';
+import { PaymentMethodPayload } from 'braintree-web-drop-in';
 import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 

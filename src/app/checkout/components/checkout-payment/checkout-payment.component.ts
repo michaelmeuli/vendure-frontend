@@ -85,4 +85,35 @@ export class CheckoutPaymentComponent implements OnInit {
 
             });
     }
+
+
+    completeOrderQR() {
+        this.dataService.mutate<AddPayment.Mutation, AddPayment.Variables>(ADD_PAYMENT, {
+            input: {
+                method: 'swissqrinvoice',
+                metadata: {},
+            },
+        })
+            .subscribe(async ({ addPaymentToOrder }) => {
+                switch (addPaymentToOrder?.__typename) {
+                    case 'Order':
+                        const order = addPaymentToOrder;
+                        if (order && (order.state === 'PaymentSettled' || order.state === 'PaymentAuthorized')) {
+                            await new Promise<void>(resolve => setTimeout(() => {
+                                this.stateService.setState('activeOrderId', null);
+                                resolve();
+                            }, 500));
+                            this.router.navigate(['../confirmation', order.code], { relativeTo: this.route });
+                        }
+                        break;
+                    case 'OrderPaymentStateError':
+                    case 'PaymentDeclinedError':
+                    case 'PaymentFailedError':
+                    case 'OrderStateTransitionError':
+                        this.paymentErrorMessage = addPaymentToOrder.message;
+                        break;
+                }
+
+            });
+    }
 }

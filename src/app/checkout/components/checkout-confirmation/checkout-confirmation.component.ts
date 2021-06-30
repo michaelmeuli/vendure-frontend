@@ -63,7 +63,7 @@ export class CheckoutConfirmationComponent implements OnInit {
         this.order$ = orderRequest$.pipe(filter(notNullOrUndefined));
         this.notFound$ = orderRequest$.pipe(map((res) => !res));
         this.route.queryParams.subscribe((params) => {
-            this.method = params["method"];
+            this.method = params['method'];
         });
 
         const data: SwissQRBill.data = {
@@ -91,10 +91,10 @@ export class CheckoutConfirmationComponent implements OnInit {
 
         const pdf = new SwissQRBill.PDF(data, stream);
 
-        pdf.on("finish", () => {
-            this.qrPdfUrl = stream.toBlobURL("application/pdf");
-            this.saveQrPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.qrPdfUrl);
-            console.log("PDF has been successfully created.");
+        pdf.on('finish', () => {
+            this.qrPdfUrl = stream.toBlobURL('application/pdf');
+            this.saveQrPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.qrPdfUrl+'#toolbar=0&navpanes=0&scrollbar=1');
+            console.log('PDF has been successfully created.');
         });
     }
 

@@ -103,7 +103,7 @@ export class CheckoutPaymentComponent implements OnInit {
                                 this.stateService.setState('activeOrderId', null);
                                 resolve();
                             }, 500));
-                            this.router.navigate(['../confirmation', order.code], { relativeTo: this.route });
+                            this.router.navigate(['../confirmation', order.code], { relativeTo: this.route, queryParams: { method: 'swissqrinvoice'} });
                         }
                         break;
                     case 'OrderPaymentStateError':

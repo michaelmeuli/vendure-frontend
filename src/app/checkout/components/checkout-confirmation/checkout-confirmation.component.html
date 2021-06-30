@@ -1,10 +1,13 @@
 <div *ngIf="order$ | async as order">
     <div class="text-center mb-4">
-        <h2 class="display-4">Thank you for your order!</h2>
+        <h2 class="display-4">Vielen Dank für Ihre Bestellung!</h2>
         <ul class="order-details list-unstyled">
-            <li class="lead"><span class="text-muted">Order code:</span> {{ order.code }}</li>
-            <li class="lead"><span class="text-muted">Placed:</span> {{ order.updatedAt | date: 'medium' }}</li>
+            <li class="lead"><span class="text-muted">Bestellnummer:</span> {{ order.code }}</li>
+            <li class="lead"><span class="text-muted">Bestelldatum:</span> {{ order.updatedAt | date: 'medium' }}</li>
         </ul>
+    </div>
+    <div *ngIf="this.method === 'swissqrinvoice'" class="text-center mb-4">
+        <p>swissqrinvoice</p>
     </div>
 
     <div *ngIf="!order.customer.user" class="account-signup card">

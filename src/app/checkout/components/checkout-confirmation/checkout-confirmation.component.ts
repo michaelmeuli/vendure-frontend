@@ -21,6 +21,7 @@ export class CheckoutConfirmationComponent implements OnInit {
     registrationSent = false;
     order$: Observable<GetOrderByCode.OrderByCode>;
     notFound$: Observable<boolean>;
+    method: string;
 
     constructor(private stateService: StateService,
                 private dataService: DataService,
@@ -44,6 +45,9 @@ export class CheckoutConfirmationComponent implements OnInit {
         this.notFound$ = orderRequest$.pipe(
             map(res => !res),
         );
+        this.route.queryParams.subscribe(params => {
+            this.method = params['method'];
+          });
     }
 
     register() {

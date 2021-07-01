@@ -19,6 +19,13 @@ export const GET_ORDER_BY_CODE = gql`
                     verified
                 }
             }
+            shippingAddress {
+                fullName
+                streetLine1
+                postalCode
+                city
+                countryCode
+            }
         }
     }
     ${CART_FRAGMENT}

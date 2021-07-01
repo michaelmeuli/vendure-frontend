@@ -77,8 +77,8 @@ export class CheckoutConfirmationComponent implements OnInit {
                     map((order) => {
                         const data: SwissQRBill.data = {
                             currency: 'CHF',
-                            amount: 1199.95,
-                            additionalInformation: 'ordernummer',
+                            amount: order.totalWithTax/100,
+                            additionalInformation: order.code,
                             creditor: {
                                 name: 'Jessica Meuli',
                                 address: 'Sonnenhaldenstrasse 5',
@@ -88,11 +88,11 @@ export class CheckoutConfirmationComponent implements OnInit {
                                 country: 'CH',
                             },
                             debtor: {
-                                name: order.customer?.firstName || 'Muster',
-                                address: 'Grosse Marktgasse 28',
-                                zip: 9400,
-                                city: 'Rorschach',
-                                country: 'CH',
+                                name: order.shippingAddress?.fullName || 'Muster Hans',
+                                address: order.shippingAddress?.streetLine1 || 'Musterstrasse 7',
+                                zip: order.shippingAddress?.postalCode || 1000,
+                                city: order.shippingAddress?.city || 'Musterstadt',
+                                country: order.shippingAddress?.countryCode || 'CH',
                             },
                         };
                         return data;
@@ -107,7 +107,7 @@ export class CheckoutConfirmationComponent implements OnInit {
                             'iframe'
                         ) as HTMLIFrameElement;
                         const qrPdfUrl = stream.toBlobURL('application/pdf');
-                        const optionsQrPdfUrl = qrPdfUrl + '#toolbar=0&navpanes=1&scrollbar=0'
+                        const optionsQrPdfUrl = qrPdfUrl + '#toolbar=0&navpanes=1&scrollbar=0&zoom=120'
                         iframe.src = optionsQrPdfUrl;
                     });
                 });

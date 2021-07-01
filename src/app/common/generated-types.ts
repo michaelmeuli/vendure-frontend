@@ -2916,6 +2916,7 @@ export namespace GetOrderByCode {
   export type OrderByCode = (NonNullable<GetOrderByCodeQuery['orderByCode']>);
   export type Customer = (NonNullable<(NonNullable<GetOrderByCodeQuery['orderByCode']>)['customer']>);
   export type User = (NonNullable<(NonNullable<(NonNullable<GetOrderByCodeQuery['orderByCode']>)['customer']>)['user']>);
+  export type ShippingAddress = (NonNullable<(NonNullable<GetOrderByCodeQuery['orderByCode']>)['shippingAddress']>);
 }
 
 export namespace GetEligiblePaymentMethods {
@@ -3406,6 +3407,9 @@ export type GetOrderByCodeQuery = (
         { __typename?: 'User' }
         & Pick<User, 'id' | 'identifier' | 'verified'>
       )> }
+    )>, shippingAddress?: Maybe<(
+      { __typename?: 'OrderAddress' }
+      & Pick<OrderAddress, 'fullName' | 'streetLine1' | 'postalCode' | 'city' | 'countryCode'>
     )> }
     & CartFragment
   )> }

@@ -9,7 +9,6 @@ import {
     Renderer2,
     ViewChild,
 } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import {
@@ -42,14 +41,12 @@ export class CheckoutConfirmationComponent implements OnInit {
     notFound$: Observable<boolean>;
     method: string;
     @ViewChild('bill', { static: false }) bill: ElementRef;
-    saveQrPdfUrl: SafeResourceUrl;
 
     constructor(
         private stateService: StateService,
         private dataService: DataService,
         private changeDetector: ChangeDetectorRef,
         private route: ActivatedRoute,
-        private sanitizer: DomSanitizer,
         private renderer: Renderer2,
         @Inject(DOCUMENT) private document: Document
     ) {}
@@ -112,24 +109,8 @@ export class CheckoutConfirmationComponent implements OnInit {
                         const qrPdfUrl = stream.toBlobURL('application/pdf');
                         const optionsQrPdfUrl = qrPdfUrl + '#toolbar=0&navpanes=1&scrollbar=0'
                         iframe.src = optionsQrPdfUrl;
-                        console.log(this.saveQrPdfUrl);
-                        console.log('PDF has been successfully created.');
                     });
                 });
-        }
-    }
-
-    createBillElement(): boolean {
-        if (this.saveQrPdfUrl) {
-            const iframe = this.renderer.createElement('iframe');
-            iframe.src = this.saveQrPdfUrl;
-            iframe.width = '100%';
-            iframe.height = '100%';
-            iframe.frameBorder = '0';
-            this.renderer.appendChild(this.bill, iframe);
-            return true;
-        } else {
-            return false;
         }
     }
 

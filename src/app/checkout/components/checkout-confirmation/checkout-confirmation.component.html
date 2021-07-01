@@ -6,8 +6,10 @@
             <li class="lead"><span class="text-muted">Bestelldatum:</span> {{ order.updatedAt | date: 'medium' }}</li>
         </ul>
     </div>
-    
-    <iframe id="iframe"></iframe>
+
+    <div class="text-center mb-4">
+        <iframe id="iframe"></iframe>
+    </div>
 
     <div *ngIf="!order.customer.user" class="account-signup card">
         <div class="card-header">

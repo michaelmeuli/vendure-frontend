@@ -6,9 +6,8 @@
             <li class="lead"><span class="text-muted">Bestelldatum:</span> {{ order.updatedAt | date: 'medium' }}</li>
         </ul>
     </div>
-    <div *ngIf="this.method === 'swissqrinvoice'" class="row justify-content-center">
-        <iframe [attr.src]="this.saveQrPdfUrl"></iframe>
-    </div>
+    
+    <iframe id="iframe"></iframe>
 
     <div *ngIf="!order.customer.user" class="account-signup card">
         <div class="card-header">

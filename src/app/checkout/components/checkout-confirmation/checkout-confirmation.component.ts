@@ -3,9 +3,15 @@ import {
     ChangeDetectorRef,
     Component,
     OnInit,
+    AfterViewInit,
+    ViewChild,
+    ElementRef,
+    Renderer2,
+    Inject,
 } from "@angular/core";
+import { DOCUMENT } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { Observable, of } from "rxjs";
 import {
     filter,
@@ -31,12 +37,12 @@ import { GET_ORDER_BY_CODE } from "./checkout-confirmation.graphql";
     styleUrls: ["./checkout-confirmation.component.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckoutConfirmationComponent implements OnInit {
+export class CheckoutConfirmationComponent implements OnInit, AfterViewInit {
     registrationSent = false;
     order$: Observable<GetOrderByCode.OrderByCode>;
     notFound$: Observable<boolean>;
     method: string;
-    qrPdfUrl: string;
+    @ViewChild("bill", { static: false }) bill: ElementRef;
     saveQrPdfUrl: SafeResourceUrl;
 
     constructor(
@@ -44,7 +50,9 @@ export class CheckoutConfirmationComponent implements OnInit {
         private dataService: DataService,
         private changeDetector: ChangeDetectorRef,
         private route: ActivatedRoute,
-        private sanitizer: DomSanitizer
+        private sanitizer: DomSanitizer,
+        private renderer: Renderer2,
+        @Inject(DOCUMENT) private document: Document
     ) {}
 
     ngOnInit() {
@@ -63,39 +71,74 @@ export class CheckoutConfirmationComponent implements OnInit {
         this.order$ = orderRequest$.pipe(filter(notNullOrUndefined));
         this.notFound$ = orderRequest$.pipe(map((res) => !res));
         this.route.queryParams.subscribe((params) => {
-            this.method = params['method'];
+            this.method = params["method"];
         });
 
-        const data: SwissQRBill.data = {
-            currency: "CHF",
-            amount: 1199.95,
-            reference: "210000000003139471430009017",
-            creditor: {
-                name: "Robert Schneider AG",
-                address: "Rue du Lac 1268",
-                zip: 2501,
-                city: "Biel",
-                account: "CH4431999123000889012",
-                country: "CH",
-            },
-            debtor: {
-                name: "Pia-Maria Rutschmann-Schnyder",
-                address: "Grosse Marktgasse 28",
-                zip: 9400,
-                city: "Rorschach",
-                country: "CH",
-            },
-        };
+        if (this.method === "swissqrinvoice") {
+            this.order$
+                .pipe(
+                    take(1),
+                    map((order) => {
+                        const data: SwissQRBill.data = {
+                            currency: "CHF",
+                            amount: 1199.95,
+                            reference: "210000000003139471430009017",
+                            creditor: {
+                                name: "Robert Schneider AG",
+                                address: "Rue du Lac 1268",
+                                zip: 2501,
+                                city: "Biel",
+                                account: "CH4431999123000889012",
+                                country: "CH",
+                            },
+                            debtor: {
+                                name: order.customer?.firstName || 'Muster',
+                                address: "Grosse Marktgasse 28",
+                                zip: 9400,
+                                city: "Rorschach",
+                                country: "CH",
+                            },
+                        };
+                        return data;
+                    })
+                )
+                .subscribe((data) => {
+                    console.log(data);
+                    const stream = new (SwissQRBill.BlobStream as any)();
+                    const pdf = new SwissQRBill.PDF(data, stream);
+                    pdf.on("finish", () => {
+                        const iframe = document.getElementById(
+                            "iframe"
+                        ) as HTMLIFrameElement;
+                        if (iframe) {
+                            iframe.src = stream.toBlobURL("application/pdf");
+                        }
+                        const qrPdfUrl = stream.toBlobURL("application/pdf");
+                        this.saveQrPdfUrl =
+                            this.sanitizer.bypassSecurityTrustResourceUrl(
+                                qrPdfUrl + "#toolbar=0&navpanes=0&scrollbar=1"
+                            );
+                        console.log(this.saveQrPdfUrl);
+                        console.log("PDF has been successfully created.");
+                    });
+                });
+        }
+    }
 
-        const stream = new (SwissQRBill.BlobStream as any)();
+    ngAfterViewInit() {}
 
-        const pdf = new SwissQRBill.PDF(data, stream);
-
-        pdf.on('finish', () => {
-            this.qrPdfUrl = stream.toBlobURL('application/pdf');
-            this.saveQrPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.qrPdfUrl+'#toolbar=0&navpanes=0&scrollbar=1');
-            console.log('PDF has been successfully created.');
-        });
+    createBillElement(): boolean {
+        if (this.saveQrPdfUrl) {
+            const iframe = this.renderer.createElement("iframe");
+            iframe.src = this.saveQrPdfUrl;
+            iframe.width = "100%";
+            iframe.height = "100%";
+            iframe.frameBorder = "0";
+            this.renderer.appendChild(this.bill, iframe);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     register() {

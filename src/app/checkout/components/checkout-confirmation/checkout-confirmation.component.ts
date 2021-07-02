@@ -19,7 +19,9 @@ import {
     switchMap,
     take,
 } from 'rxjs/operators';
+import QRCode from "qrcode";
 import SwissQRBill from 'swissqrbill/lib/browser';
+import { generateQRCode } from './checkout-confirmation.qrcode';
 
 import { REGISTER } from '../../../account/components/register/register.graphql';
 import { GetOrderByCode, Register } from '../../../common/generated-types';
@@ -100,6 +102,12 @@ export class CheckoutConfirmationComponent implements OnInit {
                 )
                 .subscribe((data) => {
                     console.log(data);
+                    let canvas = document.getElementById("canvas");
+                    const qrString = generateQRCode(data);
+                    QRCode.toCanvas(canvas, qrString, function (error: any) {
+                        if (error) console.error(error);
+                        console.log("success!");
+                    });
                     const stream = new (SwissQRBill.BlobStream as any)();
                     const pdf = new SwissQRBill.PDF(data, stream);
                     pdf.on('finish', () => {

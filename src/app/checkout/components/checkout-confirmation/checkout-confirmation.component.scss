@@ -5,6 +5,11 @@
     margin: auto auto $spacer * 2;
 }
 
+canvas {
+    width: 300px;
+    height: 300px;
+}
+
 iframe {
     width: 980px;
     height: 490px;

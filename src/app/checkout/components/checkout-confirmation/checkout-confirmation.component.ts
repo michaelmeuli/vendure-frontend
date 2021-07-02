@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -37,12 +38,13 @@ import { GET_ORDER_BY_CODE } from './checkout-confirmation.graphql';
     styleUrls: ['./checkout-confirmation.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckoutConfirmationComponent implements OnInit {
+export class CheckoutConfirmationComponent implements OnInit, AfterViewInit {
     registrationSent = false;
     order$: Observable<GetOrderByCode.OrderByCode>;
     notFound$: Observable<boolean>;
     method: string;
-    @ViewChild('bill', { static: false }) bill: ElementRef;
+    @ViewChild('qrCanvas', { static: false }) qrCanvas: ElementRef<HTMLCanvasElement>;
+    ctx: any;
 
     constructor(
         private stateService: StateService,
@@ -101,13 +103,6 @@ export class CheckoutConfirmationComponent implements OnInit {
                     })
                 )
                 .subscribe((data) => {
-                    console.log(data);
-                    let canvas = document.getElementById("canvas");
-                    const qrString = generateQRCode(data);
-                    QRCode.toCanvas(canvas, qrString, function (error: any) {
-                        if (error) console.error(error);
-                        console.log("success!");
-                    });
                     const stream = new (SwissQRBill.BlobStream as any)();
                     const pdf = new SwissQRBill.PDF(data, stream);
                     pdf.on('finish', () => {
@@ -118,6 +113,48 @@ export class CheckoutConfirmationComponent implements OnInit {
                         const optionsQrPdfUrl = qrPdfUrl + '#toolbar=0&navpanes=1&scrollbar=0&zoom=120'
                         iframe.src = optionsQrPdfUrl;
                     });
+                });
+        }
+    }
+
+    ngAfterViewInit() {
+        if (this.method === 'swissqrinvoice') {
+            this.order$
+                .pipe(
+                    take(1),
+                    map((order) => {
+                        const data: SwissQRBill.data = {
+                            currency: 'CHF',
+                            amount: order.totalWithTax/100,
+                            additionalInformation: order.code,
+                            creditor: {
+                                name: 'Jessica Meuli',
+                                address: 'Sonnenhaldenstrasse 5',
+                                zip: 8360,
+                                city: 'Wallenwil',
+                                account: 'CH14 0078 1612 4519 5200 2',
+                                country: 'CH',
+                            },
+                            debtor: {
+                                name: order.shippingAddress?.fullName || 'Muster Hans',
+                                address: order.shippingAddress?.streetLine1 || 'Musterstrasse 7',
+                                zip: order.shippingAddress?.postalCode || 1000,
+                                city: order.shippingAddress?.city || 'Musterstadt',
+                                country: order.shippingAddress?.countryCode || 'CH',
+                            },
+                        };
+                        return data;
+                    })
+                )
+                .subscribe((data) => {
+                    const canvasEl: HTMLCanvasElement = this.qrCanvas.nativeElement;
+                    this.ctx = canvasEl.getContext("2d");
+                    console.log(data);
+                    const qrString = generateQRCode(data);
+                    QRCode.toCanvas(document.getElementById('canvas'), qrString, function (error) {
+                        if (error) console.error(error)
+                        console.log('success!');
+                      })
                 });
         }
     }

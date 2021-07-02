@@ -1,9 +1,18 @@
+<canvas id="canvas" #qrCanvas width="500" height="500" style="border: 1px solid #c3c3c3">
+    Your browser does not support the canvas element.
+</canvas>
+
 <div *ngIf="order$ | async as order">
     <div class="text-center mb-4">
         <h2 class="display-4">Vielen Dank für Ihre Bestellung!</h2>
         <ul class="order-details list-unstyled">
-            <li class="lead"><span class="text-muted">Bestellnummer:</span> {{ order.code }}</li>
-            <li class="lead"><span class="text-muted">Bestelldatum:</span> {{ order.updatedAt | date: 'medium' }}</li>
+            <li class="lead">
+                <span class="text-muted">Bestellnummer:</span> {{ order.code }}
+            </li>
+            <li class="lead">
+                <span class="text-muted">Bestelldatum:</span>
+                {{ order.updatedAt | date: "medium" }}
+            </li>
         </ul>
     </div>
 
@@ -16,21 +25,29 @@
             <h3>Create an account</h3>
         </div>
         <div class="card-body">
-            <p class="lead">Create an account to enjoy faster checkouts, order tracking, order history and more!</p>
-            <button class="btn btn-primary btn-block"
-                    (click)="register()"
-                    [disabled]="registrationSent">
+            <p class="lead">
+                Create an account to enjoy faster checkouts, order tracking,
+                order history and more!
+            </p>
+            <button
+                class="btn btn-primary btn-block"
+                (click)="register()"
+                [disabled]="registrationSent"
+            >
                 Create account
             </button>
             <div *ngIf="registrationSent" class="registration-sent">
-                Great! Now check your email ({{ order.customer.emailAddress }}) to complete registration.
+                Great! Now check your email ({{ order.customer.emailAddress }})
+                to complete registration.
             </div>
         </div>
     </div>
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <vsf-cart-contents [cart]="order"
-                               [canAdjustQuantities]="false"></vsf-cart-contents>
+            <vsf-cart-contents
+                [cart]="order"
+                [canAdjustQuantities]="false"
+            ></vsf-cart-contents>
         </div>
     </div>
 </div>

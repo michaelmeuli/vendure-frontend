@@ -1,8 +1,10 @@
-import SwissQRBill from 'swissqrbill/lib/browser';
+import SwissQRBill from "swissqrbill/lib/browser";
 import * as utils from "./utils";
+import svgpath from "svgpath";
+import { parse } from "svg-parser";
+import QRCode from "qrcode";
 
 export function generateQRCode(data: SwissQRBill.data): string {
-
     //-- Validate reference
     let referenceType = "QRR";
     if (utils.isQRIBAN(data.creditor.account)) {
@@ -177,5 +179,99 @@ export function generateQRCode(data: SwissQRBill.data): string {
         qrString += "\n" + data.av2;
     }
 
-    return qrString;
+    // return qrString;
+
+    //-- Create QR Code
+
+    const qrcodeString = QRCode.toString(
+        qrString,
+        {
+            type: "svg",
+            width: utils.mmToPoints(46),
+            margin: 0,
+            errorCorrectionLevel: "M",
+        },
+        () => {}
+    ) as unknown as string;
+
+    const svgPath = getSVGPathFromQRCodeString(qrcodeString);
+
+    if (svgPath === undefined) {
+        throw new Error("Could not convert svg image to path");
+    }
+
+    this.moveTo(utils.mmToPoints(67), this._marginTop + utils.mmToPoints(17));
+
+    this.addPath(
+        svgPath,
+        utils.mmToPoints(67),
+        this._marginTop + utils.mmToPoints(17)
+    )
+        .undash()
+        .fillColor("black")
+        .fill();
+
+    //-- Black rectangle
+
+    const background =
+        "M18.3 0.7L1.6 0.7 0.7 0.7 0.7 1.6 0.7 18.3 0.7 19.1 1.6 19.1 18.3 19.1 19.1 19.1 19.1 18.3 19.1 1.6 19.1 0.7Z";
+    const cross = "M8.3 4H11.6V15H8.3V4Z M4.4 7.9H15.4V11.2H4.4V7.9Z";
+
+    this.addPath(
+        background,
+        utils.mmToPoints(86),
+        this._marginTop + utils.mmToPoints(36)
+    )
+        .fillColor("black")
+        .lineWidth(1.4357)
+        .strokeColor("white")
+        .fillAndStroke();
+
+    this.addPath(
+        cross,
+        utils.mmToPoints(86),
+        this._marginTop + utils.mmToPoints(36)
+    )
+        .fillColor("white")
+        .fill();
+}
+
+function getSVGPathFromQRCodeString(qrcodeString: string): string | undefined {
+    const svgObject = parse(qrcodeString);
+    if (svgObject.children === undefined) {
+        return;
+    }
+    firstChildLoop: for (const firstChild of svgObject.children) {
+        if (firstChild.type !== "element") {
+            continue firstChildLoop;
+        }
+        secondChildLoop: for (const secondChild of firstChild.children) {
+            if (typeof secondChild !== "object") {
+                continue secondChildLoop;
+            }
+            if (secondChild.type !== "element") {
+                continue secondChildLoop;
+            }
+            if (secondChild.properties === undefined) {
+                continue secondChildLoop;
+            }
+            if (secondChild.properties.fill !== "#000000") {
+                continue;
+            }
+            if (secondChild.properties.d === undefined) {
+                continue secondChildLoop;
+            }
+            if (typeof secondChild.properties.d !== "string") {
+                continue secondChildLoop;
+            }
+            return secondChild.properties.d;
+        }
+    }
+}
+
+// https://github.com/schoero/SwissQRBill/blob/e52b42c910ca1081dc2cfb72ab06190536c7ff57/src/extended-pdf.ts#L222
+
+function addPath(path: string, x: number, y: number): string {
+    path = svgpath(path).translate(x, y).toString();
+    return path;
 }

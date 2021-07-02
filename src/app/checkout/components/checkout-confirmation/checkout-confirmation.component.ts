@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT } from "@angular/common";
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
@@ -9,9 +9,9 @@ import {
     OnInit,
     Renderer2,
     ViewChild,
-} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
+} from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { Observable, of } from "rxjs";
 import {
     filter,
     map,
@@ -19,23 +19,23 @@ import {
     shareReplay,
     switchMap,
     take,
-} from 'rxjs/operators';
+} from "rxjs/operators";
 import QRCode from "qrcode";
-import SwissQRBill from 'swissqrbill/lib/browser';
-import { generateQRCode } from './checkout-confirmation.qrcode';
+import SwissQRBill from "swissqrbill/lib/browser";
+import { generateQRCode } from "./checkout-confirmation.qrcode";
 
-import { REGISTER } from '../../../account/components/register/register.graphql';
-import { GetOrderByCode, Register } from '../../../common/generated-types';
-import { notNullOrUndefined } from '../../../common/utils/not-null-or-undefined';
-import { DataService } from '../../../core/providers/data/data.service';
-import { StateService } from '../../../core/providers/state/state.service';
+import { REGISTER } from "../../../account/components/register/register.graphql";
+import { GetOrderByCode, Register } from "../../../common/generated-types";
+import { notNullOrUndefined } from "../../../common/utils/not-null-or-undefined";
+import { DataService } from "../../../core/providers/data/data.service";
+import { StateService } from "../../../core/providers/state/state.service";
 
-import { GET_ORDER_BY_CODE } from './checkout-confirmation.graphql';
+import { GET_ORDER_BY_CODE } from "./checkout-confirmation.graphql";
 
 @Component({
-    selector: 'vsf-checkout-confirmation',
-    templateUrl: './checkout-confirmation.component.html',
-    styleUrls: ['./checkout-confirmation.component.scss'],
+    selector: "vsf-checkout-confirmation",
+    templateUrl: "./checkout-confirmation.component.html",
+    styleUrls: ["./checkout-confirmation.component.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutConfirmationComponent implements OnInit, AfterViewInit {
@@ -43,7 +43,8 @@ export class CheckoutConfirmationComponent implements OnInit, AfterViewInit {
     order$: Observable<GetOrderByCode.OrderByCode>;
     notFound$: Observable<boolean>;
     method: string;
-    @ViewChild('qrCanvas', { static: false }) qrCanvas: ElementRef<HTMLCanvasElement>;
+    @ViewChild("qrCanvas", { static: false })
+    qrCanvas: ElementRef<HTMLCanvasElement>;
     ctx: any;
 
     constructor(
@@ -57,7 +58,7 @@ export class CheckoutConfirmationComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         const orderRequest$ = this.route.paramMap.pipe(
-            map((paramMap) => paramMap.get('code')),
+            map((paramMap) => paramMap.get("code")),
             filter(notNullOrUndefined),
             switchMap((code) =>
                 this.dataService.query<
@@ -71,32 +72,39 @@ export class CheckoutConfirmationComponent implements OnInit, AfterViewInit {
         this.order$ = orderRequest$.pipe(filter(notNullOrUndefined));
         this.notFound$ = orderRequest$.pipe(map((res) => !res));
         this.route.queryParams.subscribe((params) => {
-            this.method = params['method'];
+            this.method = params["method"];
         });
 
-        if (this.method === 'swissqrinvoice') {
+        if (this.method === "swissqrinvoice") {
             this.order$
                 .pipe(
                     take(1),
                     map((order) => {
                         const data: SwissQRBill.data = {
-                            currency: 'CHF',
-                            amount: order.totalWithTax/100,
+                            currency: "CHF",
+                            amount: order.totalWithTax / 100,
                             additionalInformation: order.code,
                             creditor: {
-                                name: 'Jessica Meuli',
-                                address: 'Sonnenhaldenstrasse 5',
+                                name: "Jessica Meuli",
+                                address: "Sonnenhaldenstrasse 5",
                                 zip: 8360,
-                                city: 'Wallenwil',
-                                account: 'CH14 0078 1612 4519 5200 2',
-                                country: 'CH',
+                                city: "Wallenwil",
+                                account: "CH14 0078 1612 4519 5200 2",
+                                country: "CH",
                             },
                             debtor: {
-                                name: order.shippingAddress?.fullName || 'Muster Hans',
-                                address: order.shippingAddress?.streetLine1 || 'Musterstrasse 7',
+                                name:
+                                    order.shippingAddress?.fullName ||
+                                    "Muster Hans",
+                                address:
+                                    order.shippingAddress?.streetLine1 ||
+                                    "Musterstrasse 7",
                                 zip: order.shippingAddress?.postalCode || 1000,
-                                city: order.shippingAddress?.city || 'Musterstadt',
-                                country: order.shippingAddress?.countryCode || 'CH',
+                                city:
+                                    order.shippingAddress?.city ||
+                                    "Musterstadt",
+                                country:
+                                    order.shippingAddress?.countryCode || "CH",
                             },
                         };
                         return data;
@@ -105,12 +113,14 @@ export class CheckoutConfirmationComponent implements OnInit, AfterViewInit {
                 .subscribe((data) => {
                     const stream = new (SwissQRBill.BlobStream as any)();
                     const pdf = new SwissQRBill.PDF(data, stream);
-                    pdf.on('finish', () => {
+                    pdf.on("finish", () => {
                         const iframe = document.getElementById(
-                            'iframe'
+                            "iframe"
                         ) as HTMLIFrameElement;
-                        const qrPdfUrl = stream.toBlobURL('application/pdf');
-                        const optionsQrPdfUrl = qrPdfUrl + '#toolbar=0&navpanes=1&scrollbar=0&zoom=120'
+                        const qrPdfUrl = stream.toBlobURL("application/pdf");
+                        const optionsQrPdfUrl =
+                            qrPdfUrl +
+                            "#toolbar=0&navpanes=1&scrollbar=0&zoom=120";
                         iframe.src = optionsQrPdfUrl;
                     });
                 });
@@ -118,43 +128,61 @@ export class CheckoutConfirmationComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        if (this.method === 'swissqrinvoice') {
+        if (this.method === "swissqrinvoice") {
             this.order$
                 .pipe(
                     take(1),
                     map((order) => {
                         const data: SwissQRBill.data = {
-                            currency: 'CHF',
-                            amount: order.totalWithTax/100,
+                            currency: "CHF",
+                            amount: order.totalWithTax / 100,
                             additionalInformation: order.code,
                             creditor: {
-                                name: 'Jessica Meuli',
-                                address: 'Sonnenhaldenstrasse 5',
+                                name: "Jessica Meuli",
+                                address: "Sonnenhaldenstrasse 5",
                                 zip: 8360,
-                                city: 'Wallenwil',
-                                account: 'CH14 0078 1612 4519 5200 2',
-                                country: 'CH',
+                                city: "Wallenwil",
+                                account: "CH14 0078 1612 4519 5200 2",
+                                country: "CH",
                             },
                             debtor: {
-                                name: order.shippingAddress?.fullName || 'Muster Hans',
-                                address: order.shippingAddress?.streetLine1 || 'Musterstrasse 7',
+                                name:
+                                    order.shippingAddress?.fullName ||
+                                    "Muster Hans",
+                                address:
+                                    order.shippingAddress?.streetLine1 ||
+                                    "Musterstrasse 7",
                                 zip: order.shippingAddress?.postalCode || 1000,
-                                city: order.shippingAddress?.city || 'Musterstadt',
-                                country: order.shippingAddress?.countryCode || 'CH',
+                                city:
+                                    order.shippingAddress?.city ||
+                                    "Musterstadt",
+                                country:
+                                    order.shippingAddress?.countryCode || "CH",
                             },
                         };
                         return data;
                     })
                 )
                 .subscribe((data) => {
-                    const canvasEl: HTMLCanvasElement = this.qrCanvas.nativeElement;
+                    const canvasEl: HTMLCanvasElement =
+                        this.qrCanvas.nativeElement;
                     this.ctx = canvasEl.getContext("2d");
-                    console.log(data);
                     const qrString = generateQRCode(data);
-                    QRCode.toCanvas(document.getElementById('canvas'), qrString, function (error) {
-                        if (error) console.error(error)
-                        console.log('success!');
-                      })
+                    const background =
+                        "M18.3 0.7L1.6 0.7 0.7 0.7 0.7 1.6 0.7 18.3 0.7 19.1 1.6 19.1 18.3 19.1 19.1 19.1 19.1 18.3 19.1 1.6 19.1 0.7Z";
+                    const cross =
+                        "M8.3 4H11.6V15H8.3V4Z M4.4 7.9H15.4V11.2H4.4V7.9Z";
+                    let p1 = new Path2D(background);
+                    let p2 = new Path2D(cross);
+                    p1.addPath(p2);
+                    this.ctx.fill(p1);
+                    QRCode.toCanvas(
+                        canvasEl,
+                        qrString,
+                        function (error) {
+                            if (error) console.error(error);
+                        }
+                    );
                 });
         }
     }

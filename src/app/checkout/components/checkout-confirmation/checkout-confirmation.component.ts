@@ -11,6 +11,7 @@ import {
     ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import QRCode from 'qrcode';
 import { Observable, of } from 'rxjs';
 import {
     filter,
@@ -20,9 +21,7 @@ import {
     switchMap,
     take,
 } from 'rxjs/operators';
-import QRCode from 'qrcode';
 import SwissQRBill from 'swissqrbill/lib/browser';
-import { generateQRCode } from './checkout-confirmation.qrcode';
 
 import { REGISTER } from '../../../account/components/register/register.graphql';
 import { GetOrderByCode, Register } from '../../../common/generated-types';
@@ -31,6 +30,8 @@ import { DataService } from '../../../core/providers/data/data.service';
 import { StateService } from '../../../core/providers/state/state.service';
 
 import { GET_ORDER_BY_CODE } from './checkout-confirmation.graphql';
+import { generateQRCode } from './checkout-confirmation.qrcode';
+
 
 @Component({
     selector: 'vsf-checkout-confirmation',
@@ -172,8 +173,8 @@ export class CheckoutConfirmationComponent implements OnInit, AfterViewInit {
                         'M18.3 0.7L1.6 0.7 0.7 0.7 0.7 1.6 0.7 18.3 0.7 19.1 1.6 19.1 18.3 19.1 19.1 19.1 19.1 18.3 19.1 1.6 19.1 0.7Z';
                     const cross =
                         'M8.3 4H11.6V15H8.3V4Z M4.4 7.9H15.4V11.2H4.4V7.9Z';
-                    let p1 = new Path2D(background);
-                    let p2 = new Path2D(cross);
+                    const p1 = new Path2D(background);
+                    const p2 = new Path2D(cross);
                     p1.addPath(p2);
                     this.ctx.fill(p1);
                     QRCode.toCanvas(canvasEl, qrString, function (error) {

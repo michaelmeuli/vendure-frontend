@@ -201,6 +201,8 @@ export function generateQRCode(data: SwissQRBill.data): string {
         throw new Error('Could not convert svg image to path');
     }
 
+
+
     this.moveTo(utils.mmToPoints(67), this._marginTop + utils.mmToPoints(17));
 
     this.addPath(
@@ -217,6 +219,13 @@ export function generateQRCode(data: SwissQRBill.data): string {
     const background =
         'M18.3 0.7L1.6 0.7 0.7 0.7 0.7 1.6 0.7 18.3 0.7 19.1 1.6 19.1 18.3 19.1 19.1 19.1 19.1 18.3 19.1 1.6 19.1 0.7Z';
     const cross = 'M8.3 4H11.6V15H8.3V4Z M4.4 7.9H15.4V11.2H4.4V7.9Z';
+
+    const backgroundPath: string = svgpath(background)
+        .translate(utils.mmToPoints(19), utils.mmToPoints(19)).toString();
+
+    const crossPath: string = svgpath(cross)
+        .translate(utils.mmToPoints(19), utils.mmToPoints(19)).toString();
+
 
     this.addPath(
         background,

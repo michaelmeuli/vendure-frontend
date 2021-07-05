@@ -171,6 +171,7 @@ export class CheckoutConfirmationComponent implements OnInit, AfterViewInit {
                     this.ctx = canvasEl.getContext('2d');
                     const qrString = generateQRCode(data);
                     const qrPath = new Path2D(qrString);
+                    this.ctx.setLineDash([]);
                     this.ctx.fillStyle = 'black';
                     this.ctx.fill(qrPath);
 

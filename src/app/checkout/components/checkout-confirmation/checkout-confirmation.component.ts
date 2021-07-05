@@ -21,6 +21,7 @@ import {
     switchMap,
     take,
 } from 'rxjs/operators';
+import svgpath from 'svgpath';
 import SwissQRBill from 'swissqrbill/lib/browser';
 
 import { REGISTER } from '../../../account/components/register/register.graphql';
@@ -31,7 +32,7 @@ import { StateService } from '../../../core/providers/state/state.service';
 
 import { GET_ORDER_BY_CODE } from './checkout-confirmation.graphql';
 import { generateQRCode } from './checkout-confirmation.qrcode';
-
+import * as utils from './utils';
 
 @Component({
     selector: 'vsf-checkout-confirmation',
@@ -169,17 +170,31 @@ export class CheckoutConfirmationComponent implements OnInit, AfterViewInit {
                         this.qrCanvas.nativeElement;
                     this.ctx = canvasEl.getContext('2d');
                     const qrString = generateQRCode(data);
+                    const qrPath = new Path2D(qrString);
+                    this.ctx.fillStyle = 'black';
+                    this.ctx.fill(qrPath);
+
                     const background =
                         'M18.3 0.7L1.6 0.7 0.7 0.7 0.7 1.6 0.7 18.3 0.7 19.1 1.6 19.1 18.3 19.1 19.1 19.1 19.1 18.3 19.1 1.6 19.1 0.7Z';
                     const cross =
                         'M8.3 4H11.6V15H8.3V4Z M4.4 7.9H15.4V11.2H4.4V7.9Z';
-                    const p1 = new Path2D(background);
-                    const p2 = new Path2D(cross);
-                    p1.addPath(p2);
-                    this.ctx.fill(p1);
-                    QRCode.toCanvas(canvasEl, qrString, function (error) {
-                        if (error) console.error(error);
-                    });
+
+                    const backgroundString: string = svgpath(background)
+                        .translate(utils.mmToPoints(19), utils.mmToPoints(19))
+                        .toString();
+                    const backgroundPath = new Path2D(backgroundString);
+                    this.ctx.fillStyle = 'black';
+                    this.ctx.lineWidth = 1.4357;
+                    this.ctx.strokeStyle = 'white';
+                    this.ctx.fill(backgroundPath);
+                    this.ctx.stroke(backgroundPath);
+
+                    const crossString: string = svgpath(cross)
+                        .translate(utils.mmToPoints(19), utils.mmToPoints(19))
+                        .toString();
+                    const crossPath = new Path2D(crossString);
+                    this.ctx.fillStyle = 'white';
+                    this.ctx.fill(crossPath);
                 });
         }
     }

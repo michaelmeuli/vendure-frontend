@@ -1,6 +1,6 @@
-<canvas id="canvas" #qrCanvas width="500" height="500" style="border: 1px solid #c3c3c3">
-    Your browser does not support the canvas element.
-</canvas>
+<div id="canvas-container">
+    <canvas id="canvas" #qrCanvas>Your browser doesn't support canvas</canvas>
+</div>
 
 <div *ngIf="order$ | async as order">
     <div class="text-center mb-4">
@@ -11,7 +11,7 @@
             </li>
             <li class="lead">
                 <span class="text-muted">Bestelldatum:</span>
-                {{ order.updatedAt | date: "medium" }}
+                {{ order.updatedAt | date: 'medium' }}
             </li>
         </ul>
     </div>

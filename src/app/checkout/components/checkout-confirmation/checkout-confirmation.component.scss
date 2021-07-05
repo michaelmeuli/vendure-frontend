@@ -1,13 +1,17 @@
-@import "variables";
+@import 'variables';
 
 .account-signup {
     max-width: 400px;
     margin: auto auto $spacer * 2;
 }
 
+#canvas-container {
+    width: 100%;
+    text-align: center;
+}
+
 canvas {
-    width: 300px;  //46 mm
-    height: 300px;
+    display: inline;
 }
 
 iframe {
@@ -16,4 +20,3 @@ iframe {
     border: 0;
     margin-bottom: 20px;
 }
-

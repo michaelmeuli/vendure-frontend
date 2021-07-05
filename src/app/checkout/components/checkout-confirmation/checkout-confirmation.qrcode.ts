@@ -1,9 +1,10 @@
-import QRCode from 'qrcode';
 import { parse } from 'svg-parser';
 import svgpath from 'svgpath';
 import SwissQRBill from 'swissqrbill/lib/browser';
 
 import * as utils from './utils';
+
+const QRCode = require('@schoero/qrcode');
 
 export function generateQRCode(data: SwissQRBill.data): string {
     // -- Validate reference
@@ -180,20 +181,18 @@ export function generateQRCode(data: SwissQRBill.data): string {
         qrString += '\n' + data.av2;
     }
 
-    // return qrString;
+    console.log('qrString: ', qrString);
 
     // Create QR Code
 
-    const qrcodeString = QRCode.toString(
-        qrString,
-        {
-            type: 'svg',
-            width: utils.mmToPoints(46),
-            margin: 0,
-            errorCorrectionLevel: 'M',
-        },
-        () => { }
-    ) as unknown as string;
+    const qrcodeString = QRCode.toString(qrString, {
+        type: "svg",
+        width: utils.mmToPoints(46),
+        margin: 0,
+        errorCorrectionLevel: "M"
+      }, () => { }) as unknown as string;
+      
+    console.log('qrcode: ', qrcodeString);
 
     const svgPath = getSVGPathFromQRCodeString(qrcodeString);
 
@@ -201,49 +200,7 @@ export function generateQRCode(data: SwissQRBill.data): string {
         throw new Error('Could not convert svg image to path');
     }
 
-
-
-    this.moveTo(utils.mmToPoints(67), this._marginTop + utils.mmToPoints(17));
-
-    this.addPath(
-        svgPath,
-        utils.mmToPoints(67),
-        this._marginTop + utils.mmToPoints(17)
-    )
-        .undash()
-        .fillColor('black')
-        .fill();
-
-    // Black rectangle
-
-    const background =
-        'M18.3 0.7L1.6 0.7 0.7 0.7 0.7 1.6 0.7 18.3 0.7 19.1 1.6 19.1 18.3 19.1 19.1 19.1 19.1 18.3 19.1 1.6 19.1 0.7Z';
-    const cross = 'M8.3 4H11.6V15H8.3V4Z M4.4 7.9H15.4V11.2H4.4V7.9Z';
-
-    const backgroundPath: string = svgpath(background)
-        .translate(utils.mmToPoints(19), utils.mmToPoints(19)).toString();
-
-    const crossPath: string = svgpath(cross)
-        .translate(utils.mmToPoints(19), utils.mmToPoints(19)).toString();
-
-
-    this.addPath(
-        background,
-        utils.mmToPoints(86),
-        this._marginTop + utils.mmToPoints(36)
-    )
-        .fillColor('black')
-        .lineWidth(1.4357)
-        .strokeColor('white')
-        .fillAndStroke();
-
-    this.addPath(
-        cross,
-        utils.mmToPoints(86),
-        this._marginTop + utils.mmToPoints(36)
-    )
-        .fillColor('white')
-        .fill();
+    return svgPath;
 }
 
 function getSVGPathFromQRCodeString(qrcodeString: string): string | undefined {

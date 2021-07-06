@@ -5,7 +5,13 @@
 <div class="ad-banner-example">
     <h3>Advertisements</h3>
     <ng-template pdfHost></ng-template>
-  </div>
+</div>
+
+<pdf-viewer *ngIf="qrPdfUrl"
+    [src]="qrPdfUrl"
+    [render-text]="true"
+    style="display: block"
+></pdf-viewer>
 
 <div *ngIf="order$ | async as order">
     <div class="text-center mb-4">

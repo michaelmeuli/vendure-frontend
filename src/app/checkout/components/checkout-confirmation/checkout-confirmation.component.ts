@@ -54,6 +54,7 @@ export class CheckoutConfirmationComponent implements OnInit, AfterViewInit {
     qrCanvas: ElementRef<HTMLCanvasElement>;
     ctx: any;
     @ViewChild(PdfDirective, {static: true}) pdfHost!: PdfDirective;
+    qrPdfUrl: string;
    
 
     constructor(
@@ -133,6 +134,7 @@ export class CheckoutConfirmationComponent implements OnInit, AfterViewInit {
                             '#toolbar=0&navpanes=1&scrollbar=0&zoom=120';
                         iframe.src = optionsQrPdfUrl;
                     });
+                    this.qrPdfUrl = "https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf";
                 });
         }
     }
@@ -208,7 +210,8 @@ export class CheckoutConfirmationComponent implements OnInit, AfterViewInit {
                     const stream = new (SwissQRBill.BlobStream as any)();
                     const pdf = new SwissQRBill.PDF(data, stream);
                     pdf.on('finish', () => {
-                        const qrPdfUrl = stream.toBlobURL('application/pdf');
+                        //this.qrPdfUrl = stream.toBlobURL('application/pdf');
+                        this.qrPdfUrl = "https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf";
                         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(PdfViewerComponent);
                         const viewContainerRef = this.pdfHost.viewContainerRef;
                         viewContainerRef.clear();

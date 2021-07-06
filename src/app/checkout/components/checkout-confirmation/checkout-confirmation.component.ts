@@ -9,6 +9,7 @@ import {
     OnInit,
     Renderer2,
     ViewChild,
+    ComponentFactoryResolver
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import QRCode from 'qrcode';
@@ -34,6 +35,10 @@ import { GET_ORDER_BY_CODE } from './checkout-confirmation.graphql';
 import { generateQRCode } from './checkout-confirmation.qrcode';
 import * as utils from './utils';
 
+import { PdfDirective } from './pdf.directive';
+
+import { PdfViewerComponent } from 'ng2-pdf-viewer';
+
 @Component({
     selector: 'vsf-checkout-confirmation',
     templateUrl: './checkout-confirmation.component.html',
@@ -48,6 +53,8 @@ export class CheckoutConfirmationComponent implements OnInit, AfterViewInit {
     @ViewChild('qrCanvas', { static: false })
     qrCanvas: ElementRef<HTMLCanvasElement>;
     ctx: any;
+    @ViewChild(PdfDirective, {static: true}) pdfHost!: PdfDirective;
+   
 
     constructor(
         private stateService: StateService,
@@ -55,7 +62,8 @@ export class CheckoutConfirmationComponent implements OnInit, AfterViewInit {
         private changeDetector: ChangeDetectorRef,
         private route: ActivatedRoute,
         private renderer: Renderer2,
-        @Inject(DOCUMENT) private document: Document
+        @Inject(DOCUMENT) private document: Document,
+        private componentFactoryResolver: ComponentFactoryResolver
     ) {}
 
     ngOnInit() {
@@ -196,6 +204,18 @@ export class CheckoutConfirmationComponent implements OnInit, AfterViewInit {
                     const crossPath = new Path2D(crossString);
                     this.ctx.fillStyle = 'white';
                     this.ctx.fill(crossPath);
+
+                    const stream = new (SwissQRBill.BlobStream as any)();
+                    const pdf = new SwissQRBill.PDF(data, stream);
+                    pdf.on('finish', () => {
+                        const qrPdfUrl = stream.toBlobURL('application/pdf');
+                        const componentFactory = this.componentFactoryResolver.resolveComponentFactory(PdfViewerComponent);
+                        const viewContainerRef = this.pdfHost.viewContainerRef;
+                        viewContainerRef.clear();
+                        const componentRef = viewContainerRef.createComponent(componentFactory);
+                        componentRef.instance.src = "https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf";
+                        componentRef.instance.renderText = true;
+                    });
                 });
         }
     }

@@ -1,14 +1,8 @@
-import { DOCUMENT } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    ElementRef,
-    Inject,
     OnInit,
-    Renderer2,
-    ViewChild,
-    ComponentFactoryResolver
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of, BehaviorSubject } from 'rxjs';
@@ -26,10 +20,8 @@ import { REGISTER } from '../../../account/components/register/register.graphql'
 import { GetOrderByCode, Register } from '../../../common/generated-types';
 import { notNullOrUndefined } from '../../../common/utils/not-null-or-undefined';
 import { DataService } from '../../../core/providers/data/data.service';
-import { StateService } from '../../../core/providers/state/state.service';
 
 import { GET_ORDER_BY_CODE } from './checkout-confirmation.graphql';
-
 
 @Component({
     selector: 'vsf-checkout-confirmation',

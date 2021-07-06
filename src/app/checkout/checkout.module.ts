@@ -10,7 +10,6 @@ import { CheckoutProcessComponent } from './components/checkout-process/checkout
 import { CheckoutShippingComponent } from './components/checkout-shipping/checkout-shipping.component';
 import { CheckoutSignInComponent } from './components/checkout-sign-in/checkout-sign-in.component';
 import { CheckoutStageIndicatorComponent } from './components/checkout-stage-indicator/checkout-stage-indicator.component';
-import { PdfDirective } from './components/checkout-confirmation/pdf.directive';
 
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 
@@ -21,7 +20,6 @@ const DECLARATIONS = [
     CheckoutSignInComponent,
     CheckoutProcessComponent,
     CheckoutStageIndicatorComponent,
-    PdfDirective
 ];
 
 @NgModule({

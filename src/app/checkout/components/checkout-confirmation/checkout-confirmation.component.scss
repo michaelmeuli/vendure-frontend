@@ -5,10 +5,12 @@
     margin: auto auto $spacer * 2;
 }
 
-#canvas-container {
-    width: 100%;
-    text-align: center;
+.pdf-viewer {
+    display: flex;
+    width: 100vw;
+    height: 500px;
 }
+
 
 canvas {
     display: inline;

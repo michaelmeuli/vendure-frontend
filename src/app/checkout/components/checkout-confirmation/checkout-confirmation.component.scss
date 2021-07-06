@@ -1,24 +1,16 @@
-@import 'variables';
+@import "variables";
 
 .account-signup {
     max-width: 400px;
     margin: auto auto $spacer * 2;
 }
 
-.pdf-viewer {
-    display: flex;
-    width: 100vw;
+pdf-viewer {
     height: 500px;
-}
-
-
-canvas {
-    display: inline;
-}
-
-iframe {
-    width: 980px;
-    height: 490px;
-    border: 0;
-    margin-bottom: 20px;
+    width: 768px;
+    display: block;
+    position: relative;
+    @media all and (min-width: 768px) {
+        width: 1400px;
+    }
 }

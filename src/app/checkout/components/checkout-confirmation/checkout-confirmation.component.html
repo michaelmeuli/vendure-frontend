@@ -7,8 +7,10 @@
         </ul>
     </div>
 
-    <div class="text-center mb-4 pdf-viewer" *ngIf="pdfUrl$ | async as pdfUrl">
-        <pdf-viewer [src]="pdfUrl" [render-text]="true"></pdf-viewer>
+    <div class="text-center mb-4">
+        <div *ngIf="pdfUrl$ | async as pdfUrl">
+            <pdf-viewer [src]="pdfUrl" [render-text]="true" [zoom]="1.2"></pdf-viewer>
+        </div>
     </div>
 
     <div *ngIf="!order.customer.user" class="account-signup card">

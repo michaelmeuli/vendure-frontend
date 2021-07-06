@@ -7,8 +7,14 @@
     <ng-template pdfHost></ng-template>
 </div>
 
-<pdf-viewer *ngIf="qrPdfUrl"
-    [src]="qrPdfUrl"
+<div *ngIf="pdfUrl$ | async as pdfUrl">
+    <h3>Url</h3>
+    Url: {{ pdfUrl }}
+</div>
+
+
+<pdf-viewer *ngIf="pdfUrl$ | async as pdfUrl"
+    [src]="pdfUrl"
     [render-text]="true"
     style="display: block"
 ></pdf-viewer>

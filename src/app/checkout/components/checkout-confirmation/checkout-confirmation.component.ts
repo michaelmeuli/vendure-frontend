@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import QRCode from 'qrcode';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import {
     filter,
     map,
@@ -55,6 +55,7 @@ export class CheckoutConfirmationComponent implements OnInit, AfterViewInit {
     ctx: any;
     @ViewChild(PdfDirective, {static: true}) pdfHost!: PdfDirective;
     qrPdfUrl: string;
+    pdfUrl$ = new BehaviorSubject<string>('');
    
 
     constructor(
@@ -133,6 +134,7 @@ export class CheckoutConfirmationComponent implements OnInit, AfterViewInit {
                             qrPdfUrl +
                             '#toolbar=0&navpanes=1&scrollbar=0&zoom=120';
                         iframe.src = optionsQrPdfUrl;
+                        this.pdfUrl$.next(qrPdfUrl);
                     });
                     this.qrPdfUrl = "https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf";
                 });

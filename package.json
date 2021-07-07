@@ -10,11 +10,11 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "generate-types": "gql-gen --config codegen.yml",
-    "dev:ssr": "ng run reference-storefront:serve-ssr",
+    "dev:ssr": "ng run yl-shop-frontend:serve-ssr",
     "serve:ssr": "node dist/server/main.js",
-    "build:ssr": "ng build --prod && ng run reference-storefront:server:production",
-    "build:ssr:docker": "ng build --configuration=production,docker && ng run reference-storefront:server:docker",
-    "prerender": "ng run reference-storefront:prerender"
+    "build:ssr": "ng build --prod && ng run yl-shop-frontend:server:production",
+    "build:ssr:docker": "ng build --configuration=production,docker && ng run yl-shop-frontend:server:docker",
+    "prerender": "ng run yl-shop-frontend:prerender"
   },
   "private": true,
   "dependencies": {

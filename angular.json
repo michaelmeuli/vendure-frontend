@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "reference-storefront": {
+    "yl-shop-frontend": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -87,18 +87,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "reference-storefront:build"
+            "browserTarget": "yl-shop-frontend:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "reference-storefront:build:production"
+              "browserTarget": "yl-shop-frontend:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "reference-storefront:build"
+            "browserTarget": "yl-shop-frontend:build"
           }
         },
         "test": {
@@ -169,21 +169,21 @@
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
           "options": {
-            "browserTarget": "reference-storefront:build",
-            "serverTarget": "reference-storefront:server"
+            "browserTarget": "yl-shop-frontend:build",
+            "serverTarget": "yl-shop-frontend:server"
           },
           "configurations": {
             "production": {
-              "browserTarget": "reference-storefront:build:production",
-              "serverTarget": "reference-storefront:server:production"
+              "browserTarget": "yl-shop-frontend:build:production",
+              "serverTarget": "yl-shop-frontend:server:production"
             }
           }
         },
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
           "options": {
-            "browserTarget": "reference-storefront:build:production",
-            "serverTarget": "reference-storefront:server:production",
+            "browserTarget": "yl-shop-frontend:build:production",
+            "serverTarget": "yl-shop-frontend:server:production",
             "routes": [
               "/"
             ]
@@ -195,7 +195,7 @@
       }
     }
   },
-  "defaultProject": "reference-storefront",
+  "defaultProject": "yl-shop-frontend",
   "schematics": {
     "@schematics/angular:component": {
       "style": "scss",

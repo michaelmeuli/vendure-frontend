@@ -22,7 +22,7 @@
               "src/favicon.ico",
               "src/robots.txt",
               "src/assets",
-              "src/storefront-config.json",
+              "src/shop-config.json",
               "src/manifest.json",
               {
                 "glob": "**/*",

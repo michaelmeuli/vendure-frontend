@@ -11,7 +11,7 @@ let serverConfig: ServerConfig | undefined;
  * Loads the app config from the JSON file via a browser-side fetch call.
  */
 export function loadAppConfig(): Promise<void> {
-    return fetch('./storefront-config.json')
+    return fetch('./shop-config.json')
         .then(res => res.json())
         .then(config => {
             serverConfig = config;

@@ -42,13 +42,22 @@
             <div class="col-md-3 text-center text-md-left">
                 <h3>Über uns</h3>
                 <ul class="list-unstyled">
-                    <li>Impressum</li>
+                    <a
+                        [routerLink]="['./', 'impressum']"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        routerLinkActive="active"
+                    >
+                        <li>Impressum</li>
+                    </a>
                 </ul>
             </div>
             <div class="col">
                 <div class="social d-flex justify-content-around">
                     <a href="https://www.facebook.com/YogaLichtquelle">
-                        <fa-icon size="2x" [icon]="['fab', 'facebook']"></fa-icon>
+                        <fa-icon
+                            size="2x"
+                            [icon]="['fab', 'facebook']"
+                        ></fa-icon>
                     </a>
                     <a href="https://github.com/michaelmeuli">
                         <fa-icon size="2x" [icon]="['fab', 'github']"></fa-icon>
@@ -57,8 +66,8 @@
             </div>
         </div>
         <div class="text-center text-secondary">
-            This is a storefront for Vendure, an open-source headless
-            e-commerce framework:
+            This is a storefront for Vendure, an open-source headless e-commerce
+            framework:
             <a href="https://www.vendure.io/">vendure.io</a><br />
         </div>
     </vsf-layout-footer>

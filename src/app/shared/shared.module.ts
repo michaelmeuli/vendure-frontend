@@ -20,6 +20,7 @@ import { CollectionCardComponent } from './components/collection-card/collection
 import { DropdownContentDirective } from './components/dropdown/dropdown-content.directive';
 import { DropdownTriggerDirective } from './components/dropdown/dropdown-trigger.directive';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
+import { ImpressumComponent } from './components/impressum/impressum.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { AssetPreviewPipe } from './pipes/asset-preview.pipe';
 import { FormatPricePipe } from './pipes/format-price.pipe';
@@ -37,6 +38,7 @@ const SHARED_DECLARATIONS = [
     DialogButtonsDirective,
     DialogTitleDirective,
     DialogComponentOutletComponent,
+    ImpressumComponent,
     ModalDialogComponent,
     AddressModalComponent,
     CollectionCardComponent,

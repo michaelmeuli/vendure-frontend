@@ -1,6 +1,7 @@
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import {
     faFacebook,
+    faGithub,
     faInstagram,
     faTwitter,
     faYoutube,
@@ -26,6 +27,7 @@ export function buildIconLibrary(library: FaIconLibrary) {
     library.addIcons(
         faTwitter,
         faFacebook,
+        faGithub,
         faInstagram,
         faYoutube,
         faTimes,

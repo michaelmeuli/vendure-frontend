@@ -38,13 +38,6 @@ export class HomePageComponent implements OnInit {
         this.topSellersLoaded$ = this.topSellers$.pipe(
             map(items => 0 < items.length),
         );
-
-        this.heroImage = this.sanitizer.bypassSecurityTrustStyle(this.getHeroImageUrl());
-    }
-
-    private getHeroImageUrl(): string {
-        const { apiHost, apiPort } = environment;
-        return `url('${apiHost}:${apiPort}/assets/preview/40/abel-y-costa-716024-unsplash__preview.jpg')`;
     }
 
 }

@@ -2136,6 +2136,11 @@
   resolved "https://registry.yarnpkg.com/@types/paypal-checkout-components/-/paypal-checkout-components-4.0.1.tgz#d320655b8f894c9d5e5f79f76ac232900155b1a2"
   integrity sha512-ZMbOIQGUA16IP/hG43uYHqLaJxcOQSUzTkjM+YIMqeyHqmCrhvWjEJ6UQd/m9qdC9Vu1Ygw7cZAUatXJOwpnGw==
 
+"@types/pdfjs-dist@~2.1.7":
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/@types/pdfjs-dist/-/pdfjs-dist-2.1.7.tgz#a92d94b9d699a93ab8a762839f7819dc04e96484"
+  integrity sha512-nQIwcPUhkAIyn7x9NS0lR/qxYfd5unRtfGkMjvpgF4Sh28IXftRymaNmFKTTdejDNY25NDGSIyjwj/BRwAPexg==
+
 "@types/photoswipe@^4.1.0":
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/@types/photoswipe/-/photoswipe-4.1.1.tgz#3d76ed9698775ea17a1191578e4d0eeb331024a2"
@@ -7960,13 +7965,14 @@ ng-packagr@^12.0.0:
     sass "^1.32.8"
     stylus "^0.54.8"
 
-ng2-pdf-viewer@^7.0.1:
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/ng2-pdf-viewer/-/ng2-pdf-viewer-7.0.1.tgz#c01b9bf731140b974ff4bb965ca014f13d8a8302"
-  integrity sha512-kjjsvHd5t1Ff7ydb3Far3d6cSyw/XJH5KXgcp/0bFzSFBAV2c5aOghxoY/yQVjgG+R6F16nVUh2UrZdngLXLSg==
+ng2-pdf-viewer@6.4.1:
+  version "6.4.1"
+  resolved "https://registry.yarnpkg.com/ng2-pdf-viewer/-/ng2-pdf-viewer-6.4.1.tgz#c84e7e4c6db9d759ebc6969ec60b5fc0c3e7fe16"
+  integrity sha512-A8R9SGa2bu4n+mtagGX8DqBrVAbuROrEgcAOQwCdciYTLAq9EFGEB8TCQZpjvYVaFTNwjKWTMTjFQVEorjbLeQ==
   dependencies:
-    pdfjs-dist "~2.7.570"
-    tslib "^2.0.0"
+    "@types/pdfjs-dist" "~2.1.7"
+    pdfjs-dist "~2.5.207"
+    tslib "^1.10.0"
 
 nice-try@^1.0.4:
   version "1.0.5"
@@ -8618,10 +8624,10 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
-pdfjs-dist@~2.7.570:
-  version "2.7.570"
-  resolved "https://registry.yarnpkg.com/pdfjs-dist/-/pdfjs-dist-2.7.570.tgz#7233241a2437ac22387656099b6e549d032f0b35"
-  integrity sha512-/ZkA1FwkEOyDaq11JhMLazdwQAA0F9uwrP7h/1L9Akt9KWh1G5/tkzS+bPuUELq2s2GDFnaT+kooN/aSjT7DXQ==
+pdfjs-dist@~2.5.207:
+  version "2.5.207"
+  resolved "https://registry.yarnpkg.com/pdfjs-dist/-/pdfjs-dist-2.5.207.tgz#b5e8c19627be64269cd3fb6df3eaaf45ddffe7b6"
+  integrity sha512-xGDUhnCYPfHy+unMXCLCJtlpZaaZ17Ew3WIL0tnSgKFUZXHAPD49GO9xScyszSsQMoutNDgRb+rfBXIaX/lJbw==
 
 pdfkit@^0.12.0:
   version "0.12.1"

@@ -3,6 +3,6 @@ export const environment = {
     apiHost: 'https://demo.vendure.io',
     apiPort: 443,
     shopApiPath: 'shop-api',
-    baseHref: '/storefront/',
+    baseHref: '/',
     tokenMethod: 'cookie',
 };

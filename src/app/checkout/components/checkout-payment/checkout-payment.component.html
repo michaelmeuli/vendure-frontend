@@ -2,13 +2,37 @@
     {{ paymentErrorMessage }}
 </div>
 
-<div id="dropin-container"></div>
-<button class="btn btn-primary btn-lg" (click)="completeOrder()">Bestellen</button>
+<div class="row">
+    <div class="col col-lg-10">
+        <h4>Vorauszahlung mit QR-Rechnung</h4>
+        <p>
+            Du bezahlst die Ware mit der QR-Rechnung, die wir dir per E-Mail
+            zusenden.
+        </p>
+        <p>
+            Der Zahlteil mit Empfangsschein der QR-Rechnung erscheint auch auf der
+            der nächsten Seite und kann bequem mit ihrer Banken-App eingelesen
+            werden.
+        </p>
+        <p>
+            Die Ware wird sofort nach Bestelleingang reserviert oder bestellt. Der
+            Versand erfolgt nach Zahlungseingang.
+        </p>
+    
+        <button class="btn btn-primary btn-lg" (click)="completeOrderQR()">
+            Bestellen
+        </button>
+    </div>
+</div>
 
-<div></div>
+<div class="row">
+    <div class="col col-lg-10">
+        <h4>Bezahlung mit Kreditkarte</h4>
+        <div id="dropin-container"></div>
+        <button class="btn btn-primary btn-lg" (click)="completeOrder()">
+            Bestellen
+        </button>
+    </div>
+</div>
 
-<h4>Vorauszahlung</h4>
-<p>Du bezahlst die Ware mit den Kontoinformationen, die wir dir per E-Mail zusenden.
-    Die Ware wird sofort nach Bestelleingang reserviert oder bestellt. Der Versand erfolgt nach Zahlungseingang.
-</p>
-<button class="btn btn-primary btn-lg" (click)="completeOrderQR()">Bestellen</button>
+

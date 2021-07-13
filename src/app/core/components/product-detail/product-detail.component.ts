@@ -77,7 +77,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
                     this.stateService.setState('activeOrderId', addItemToOrder ? addItemToOrder.id : null);
                     if (variant) {
                         this.notificationService.notify({
-                            title: 'Added to cart',
+                            title: 'Zum Warenkorb hinzugefügt',
                             type: 'info',
                             duration: 3000,
                             templateRef: this.addToCartTemplate,

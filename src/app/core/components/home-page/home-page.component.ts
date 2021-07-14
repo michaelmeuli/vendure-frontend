@@ -70,7 +70,8 @@ const GET_TOP_SELLERS = gql`
             groupByProduct: true,
             sort: {
                 price: ASC
-            }
+            },
+            facetValueIds: ["07b95d59-110c-41af-a7bb-d8af50853ef0"]
         }) {
             items {
                 productId

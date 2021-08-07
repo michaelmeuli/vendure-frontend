@@ -3,9 +3,9 @@
   "version": "0.1.25",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 4201",
+    "start:dev": "ng serve --port 4201",
     "build": "ng build",
-    "analyze-prod-bundle": "ng build --prod --statsJson=true && webpack-bundle-analyzer dist/browser/stats.json",  
+    "analyze-prod-bundle": "ng build --prod --statsJson=true && webpack-bundle-analyzer dist/browser/stats.json",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -15,7 +15,9 @@
     "serve:ssr": "node dist/server/main.js",
     "build:ssr": "ng build --prod && ng run yl-shop-frontend:server:production",
     "build:ssr:docker": "ng build --configuration=production,docker && ng run yl-shop-frontend:server:docker",
-    "prerender": "ng run yl-shop-frontend:prerender"
+    "prerender": "ng run yl-shop-frontend:prerender",
+    "prepare": "npm run build:ssr",
+    "start": "npm run serve:ssr"
   },
   "private": true,
   "dependencies": {

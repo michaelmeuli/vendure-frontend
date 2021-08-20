@@ -15,7 +15,7 @@
     "serve:ssr": "node dist/server/main.js",
     "build:ssr": "ng build --prod && ng run yl-shop-frontend:server:production",
     "build:ssr:docker": "ng build --configuration=production,docker && ng run yl-shop-frontend:server:docker",
-    "prerender": "ng run yl-shop-frontend:prerender",
+    "prerender": "ng run yl-shop-frontend:prerender --routes-file routes.txt",
     "start": "npm run serve:ssr"
   },
   "private": true,

@@ -50,6 +50,15 @@
                         <li>Impressum</li>
                     </a>
                 </ul>
+                <ul class="list-unstyled">
+                    <a
+                        [routerLink]="['./', 'privacypolicy']"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        routerLinkActive="active"
+                    >
+                        <li>Datenschutzerklärung</li>
+                    </a>
+                </ul>
             </div>
             <div class="col">
                 <div class="social d-flex justify-content-center">

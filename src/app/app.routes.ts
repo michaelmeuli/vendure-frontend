@@ -3,6 +3,7 @@ import { Route } from '@angular/router';
 import { ProductDetailComponent } from './core/components/product-detail/product-detail.component';
 import { ProductListComponent } from './core/components/product-list/product-list.component';
 import { ImpressumComponent } from './shared/components/impressum/impressum.component';
+import { PrivacyPolicyComponent } from './shared/components/privacypolicy/privacypolicy.component';
 
 export const routes: Route[] = [
     {
@@ -21,6 +22,10 @@ export const routes: Route[] = [
     {
         path: 'impressum',
         component: ImpressumComponent,
+    },
+    {
+        path: 'privacypolicy',
+        component: PrivacyPolicyComponent,
     },
     {
         path: 'account',

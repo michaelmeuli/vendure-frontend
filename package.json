@@ -3,15 +3,14 @@
   "version": "0.1.25",
   "scripts": {
     "ng": "ng",
-    "start:dev": "ng serve --port 4201",
+    "start": "ng serve --port 4201",
     "build": "ng build",
     "analyze-prod-bundle": "ng build --prod --statsJson=true && webpack-bundle-analyzer dist/yl-shop-frontend/stats.json",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "generate-types": "gql-gen --config codegen.yml",
-    "serve:prerender": "http-server -c-1 dist/browser",
-    "start": "npm run serve:ssr"
+    "serve:prerender": "http-server -c-1 dist/browser"
   },
   "private": true,
   "dependencies": {

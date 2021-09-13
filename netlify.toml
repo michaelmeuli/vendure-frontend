@@ -1,8 +1,7 @@
 # example netlify.toml
 [build]
-  command = "yarn prerender"
-  functions = "./functions"
-  publish = "dist/browser"
+  command = "yarn build"
+  publish = "dist/yl-shop-frontend"
 
 [build.environment]
   NODE_VERSION = "14.17.0"

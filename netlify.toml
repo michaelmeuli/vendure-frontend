@@ -1,10 +1,16 @@
 # example netlify.toml
 [build]
-  command = "yarn build"
-  publish = "dist/yl-shop-frontend"
+  command = "yarn build && yarn scully"
+  functions = "netlify/functions"
+  publish = "dist/static"
 
 [build.environment]
   NODE_VERSION = "14.17.0"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
 
 # test
   ## Uncomment to use this redirect for Single Page Applications like create-react-app.

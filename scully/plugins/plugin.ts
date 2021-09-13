@@ -1,5 +1,5 @@
 
-import { registerPlugin, getPluginConfig } from '@scullyio/scully';
+import { getPluginConfig, registerPlugin } from '@scullyio/scully';
 
 export const myPlugin = 'myPlugin';
 

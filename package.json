@@ -10,7 +10,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "generate-types": "gql-gen --config codegen.yml",
-    "serve:prerender": "http-server -c-1 dist/browser"
+    "serve:prerender": "http-server -c-1 dist/browser",
+    "scully": "npx scully --",
+    "scully:serve": "npx scully serve --"
   },
   "private": true,
   "dependencies": {
@@ -29,6 +31,9 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.31",
     "@fortawesome/free-brands-svg-icons": "^5.15.0",
     "@fortawesome/free-solid-svg-icons": "^5.15.0",
+    "@scullyio/init": "^1.1.4",
+    "@scullyio/ng-lib": "^1.0.0",
+    "@scullyio/scully": "^1.0.0",
     "@types/braintree-web-drop-in": "^1.22.3",
     "apollo-angular": "^2.4.0",
     "bootstrap": "^4.5.2",

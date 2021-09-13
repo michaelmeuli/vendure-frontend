@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/browser",
+            "outputPath": "dist/yl-shop-frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -129,67 +129,6 @@
             "exclude": [
               "**/node_modules/**"
             ]
-          }
-        },
-        "server": {
-          "builder": "@angular-devkit/build-angular:server",
-          "options": {
-            "outputPath": "dist/server",
-            "main": "server.ts",
-            "tsConfig": "src/tsconfig.server.json",
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/styles",
-                "dist"
-              ]
-            },
-            "optimization": false
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true
-            },
-            "docker": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.docker.ts"
-                }
-              ],
-              "optimization": true
-            }
-          }
-        },
-        "serve-ssr": {
-          "builder": "@nguniversal/builders:ssr-dev-server",
-          "options": {
-            "browserTarget": "yl-shop-frontend:build",
-            "serverTarget": "yl-shop-frontend:server"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "yl-shop-frontend:build:production",
-              "serverTarget": "yl-shop-frontend:server:production"
-            }
-          }
-        },
-        "prerender": {
-          "builder": "@nguniversal/builders:prerender",
-          "options": {
-            "browserTarget": "yl-shop-frontend:build:production",
-            "serverTarget": "yl-shop-frontend:server:production",
-            "routes": [
-              "/"
-            ]
-          },
-          "configurations": {
-            "production": {}
           }
         }
       }

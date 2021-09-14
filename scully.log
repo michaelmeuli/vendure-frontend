@@ -3,3 +3,32 @@ No configuration for route "/category/:slug" found. SkippingNo configuration for
 
 
 
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/category/:slug" found. SkippingNo configuration for route "/checkout/confirmation/:code" found. SkippingNo configuration for route "/account/orders/:code" found. SkippingNo configuration for route "/account/address-book/:id" found. Skipping
+
+
+
+
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/category/:slug" found. SkippingNo configuration for route "/account/orders/:code" found. SkippingNo configuration for route "/account/address-book/:id" found. SkippingNo configuration for route "/checkout/confirmation/:code" found. Skipping
+
+
+
+
+Received Kill commandClosed servers
+
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/category/:slug" found. SkippingNo configuration for route "/account/orders/:code" found. SkippingNo configuration for route "/account/address-book/:id" found. SkippingNo configuration for route "/checkout/confirmation/:code" found. Skipping
+
+
+
+

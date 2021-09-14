@@ -32,3 +32,7 @@ Using stored unhandled routes!.
 
 
 
+No configuration for route "/category/:slug" found. SkippingNo configuration for route "/account/orders/:code" found. SkippingNo configuration for route "/account/address-book/:id" found. SkippingNo configuration for route "/checkout/confirmation/:code" found. Skipping
+
+
+

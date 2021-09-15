@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4201",
-    "build": "ng build --configuration production",
+    "build": "ng build --configuration production --stats-json",
     "analyze-prod-bundle": "ng build --prod --statsJson=true && webpack-bundle-analyzer dist/yl-shop-frontend/stats.json",
     "test": "ng test",
     "lint": "ng lint",
@@ -43,6 +43,7 @@
     "ng2-pdf-viewer": "6.4.1",
     "photoswipe": "^4.1.3",
     "rxjs": "~6.6.3",
+    "scully-plugin-disable-angular": "^8.0.0",
     "svg-parser": "^2.0.4",
     "swissqrbill": "^2.3.3",
     "tslib": "^2.2.0",

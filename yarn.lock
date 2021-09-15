@@ -10595,6 +10595,13 @@ scuid@^1.1.0:
   resolved "https://registry.yarnpkg.com/scuid/-/scuid-1.1.0.tgz#d3f9f920956e737a60f72d0e4ad280bf324d5dab"
   integrity sha512-MuCAyrGZcTLfQoH2XoBlQ8C6bzwN88XT/0slOGz0pn8+gIP85BOAfYa44ZXQUTOwRwPU0QvgU+V+OSajl/59Xg==
 
+scully-plugin-disable-angular@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/scully-plugin-disable-angular/-/scully-plugin-disable-angular-8.0.0.tgz#88be9d3bb77a0ed9b9b530a86f55555ad79e3945"
+  integrity sha512-lc4IjVNafeXLPa7k97OtYqljDFWA5O3PgtFXBFeI7u7EMDN4AUy5CkRuKlIBAXlC8uxXq6JBctz4AX5eNjAj5g==
+  dependencies:
+    tslib "^2.0.0"
+
 secure-compare@3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/secure-compare/-/secure-compare-3.0.1.tgz#f1a0329b308b221fae37b9974f3d578d0ca999e3"

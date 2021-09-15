@@ -1,11 +1,10 @@
 # example netlify.toml
 [build]
   command = "yarn build && yarn scully"
-  functions = "netlify/functions"
   publish = "dist/static"
 
 [build.environment]
-  NODE_VERSION = "12"
+  NODE_VERSION = "14"
 
 [[redirects]]
   from = "/*"

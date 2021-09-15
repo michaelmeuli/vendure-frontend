@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Inject, NgModule } from '@angular/core';
 import { BrowserModule, BrowserTransferStateModule, makeStateKey, TransferState } from '@angular/platform-browser';
 import { NavigationEnd, Router, RouterModule, UrlSerializer } from '@angular/router';
+import { ScullyLibModule } from '@scullyio/ng-lib';
 import { filter } from 'rxjs/operators';
 
 import { environment } from '../environments/environment';
@@ -11,7 +12,6 @@ import { routes } from './app.routes';
 import { HomePageComponent } from './core/components/home-page/home-page.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-import { ScullyLibModule } from '@scullyio/ng-lib';
 
 const STATE_KEY = makeStateKey<any>('apollo.state');
 

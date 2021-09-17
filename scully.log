@@ -112,3 +112,10 @@ https://scully.io/docs/learn/getting-started/installation/
 **********************************************************
       
 Using deprecated plugin type:"render"  use "postProcessByHtml" instead
+Using deprecated plugin type:"render"  use "postProcessByHtml" instead
+Using deprecated plugin type:"render"  use "postProcessByHtml" instead
+No configuration for route "/category/:slug" found. SkippingNo configuration for route "/account/orders/:code" found. SkippingNo configuration for route "/account/address-book/:id" found. SkippingNo configuration for route "/checkout/confirmation/:code" found. Skipping
+
+
+
+Using deprecated plugin type:"render"  use "postProcessByHtml" instead

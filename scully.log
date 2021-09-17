@@ -119,3 +119,39 @@ No configuration for route "/category/:slug" found. SkippingNo configuration for
 
 
 Using deprecated plugin type:"render"  use "postProcessByHtml" instead
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/category/:slug" found. SkippingNo configuration for route "/account/orders/:code" found. SkippingNo configuration for route "/account/address-book/:id" found. SkippingNo configuration for route "/checkout/confirmation/:code" found. Skipping
+
+
+
+
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/category/:slug" found. SkippingNo configuration for route "/account/orders/:code" found. SkippingNo configuration for route "/account/address-book/:id" found. SkippingNo configuration for route "/checkout/confirmation/:code" found. Skipping
+
+
+
+
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/category/:slug" found. SkippingNo configuration for route "/account/orders/:code" found. SkippingNo configuration for route "/account/address-book/:id" found. SkippingNo configuration for route "/checkout/confirmation/:code" found. Skipping
+
+
+
+
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/category/:slug" found. SkippingNo configuration for route "/account/orders/:code" found. SkippingNo configuration for route "/account/address-book/:id" found. SkippingNo configuration for route "/checkout/confirmation/:code" found. Skipping
+
+
+
+

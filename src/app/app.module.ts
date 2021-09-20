@@ -2,7 +2,8 @@ import { DOCUMENT } from '@angular/common';
 import { Inject, NgModule } from '@angular/core';
 import { BrowserModule, BrowserTransferStateModule, makeStateKey, TransferState } from '@angular/platform-browser';
 import { NavigationEnd, Router, RouterModule, UrlSerializer } from '@angular/router';
-import { ScullyLibModule } from '@scullyio/ng-lib';
+import { ScullyLibModule, isScullyGenerated, TransferStateService } from '@scullyio/ng-lib';
+
 import { filter } from 'rxjs/operators';
 
 import { environment } from '../environments/environment';
@@ -12,8 +13,6 @@ import { routes } from './app.routes';
 import { HomePageComponent } from './core/components/home-page/home-page.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-
-const STATE_KEY = makeStateKey<any>('apollo.state');
 
 @NgModule({
     declarations: [
@@ -37,11 +36,11 @@ export class AppModule {
         private readonly transferState: TransferState,
         private router: Router,
         private urlSerializer: UrlSerializer,
+        private transferStateService: TransferStateService,
         @Inject(DOCUMENT) private document?: Document,
     ) {
-        const isBrowser = this.transferState.hasKey<any>(STATE_KEY);
 
-        if (isBrowser) {
+        if (isScullyGenerated()) {
             this.onBrowser();
             this.handleScrollOnNavigations();
         } else {
@@ -50,14 +49,12 @@ export class AppModule {
     }
 
     onServer() {
-        this.transferState.onSerialize(STATE_KEY, () => {
-            const state = this.coreModule.extractState();
-            return state;
-        });
+        const state = this.coreModule.extractState();
+        this.transferStateService.setState<any>('apollo.state', state)
     }
 
     onBrowser() {
-        const state = this.transferState.get<any>(STATE_KEY, null);
+        const state = this.transferStateService.getState<any>('apollo.state');
         this.coreModule.restoreState(state);
     }
 

@@ -23,7 +23,6 @@
               "src/robots.txt",
               "src/assets",
               "src/shop-config.json",
-              "src/manifest.json",
               {
                 "glob": "**/*",
                 "input": "./node_modules/photoswipe/dist/default-skin",
@@ -114,8 +113,7 @@
             "scripts": [],
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              "src/manifest.json"
+              "src/assets"
             ]
           }
         },

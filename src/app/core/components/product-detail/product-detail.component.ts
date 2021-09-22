@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { isScullyGenerated } from '@scullyio/ng-lib';
 import { Subscription } from 'rxjs';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
@@ -33,7 +34,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
                 private route: ActivatedRoute) {
     }
 
+
     ngOnInit() {
+        if (isScullyGenerated()) {
+            return;
+        }
+
         const lastCollectionSlug$ = this.stateService.select(state => state.lastCollectionSlug);
         const productSlug$ = this.route.paramMap.pipe(
             map(paramMap => paramMap.get('slug')),
@@ -62,6 +68,9 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
+        if (isScullyGenerated()) {
+            return;
+        }
         if (this.sub) {
             this.sub.unsubscribe();
         }

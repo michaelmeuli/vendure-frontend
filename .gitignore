@@ -41,3 +41,7 @@ Thumbs.db
 
 # Local Netlify folder
 .netlify
+
+# Scully generated files
+scully/plugins/*.js
+scully/plugins/*.js.map

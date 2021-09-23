@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
@@ -13,6 +13,7 @@ import { ADD_TO_CART, GET_PRODUCT_DETAIL } from './product-detail.graphql';
 
 @Component({
     selector: 'vsf-product-detail',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './product-detail.component.html',
     styleUrls: ['./product-detail.component.scss'],
 })

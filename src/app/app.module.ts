@@ -12,6 +12,7 @@ import { routes } from './app.routes';
 import { HomePageComponent } from './core/components/home-page/home-page.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
+import { ScullyLibModule } from '@scullyio/ng-lib';
 
 const STATE_KEY = makeStateKey<any>('apollo.state');
 
@@ -30,6 +31,7 @@ const STATE_KEY = makeStateKey<any>('apollo.state');
             enabled: environment.production,
             registrationStrategy: 'registerWithDelay:5000',
         }),
+        ScullyLibModule,
     ],
     bootstrap: [AppComponent],
 })

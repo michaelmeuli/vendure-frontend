@@ -16,7 +16,9 @@
     "build:ssr": "ng build --prod && ng run yl-shop-frontend:server:production",
     "build:ssr:docker": "ng build --configuration=production,docker && ng run yl-shop-frontend:server:docker",
     "prerender": "ng run yl-shop-frontend:prerender --routes-file routes.txt",
-    "start": "npm run serve:ssr"
+    "start": "npm run serve:ssr",
+    "scully": "npx scully --",
+    "scully:serve": "npx scully serve --"
   },
   "private": true,
   "dependencies": {
@@ -37,6 +39,9 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.0",
     "@fortawesome/free-solid-svg-icons": "^5.15.0",
     "@nguniversal/express-engine": "^12.0.0",
+    "@scullyio/init": "^1.1.4",
+    "@scullyio/ng-lib": "^1.0.0",
+    "@scullyio/scully": "^1.0.0",
     "@types/braintree-web-drop-in": "^1.22.3",
     "apollo-angular": "^2.4.0",
     "bootstrap": "^4.5.2",

@@ -2821,6 +2821,13 @@ export type Zone = Node & {
 
 type DiscriminateUnion<T, U> = T extends U ? T : never;
 
+export namespace GetProducts {
+  export type Variables = GetProductsQueryVariables;
+  export type Query = GetProductsQuery;
+  export type Products = (NonNullable<GetProductsQuery['products']>);
+  export type Items = NonNullable<(NonNullable<(NonNullable<GetProductsQuery['products']>)['items']>)[number]>;
+}
+
 export namespace UpdateAddress {
   export type Variables = UpdateAddressMutationVariables;
   export type Mutation = UpdateAddressMutation;
@@ -3148,6 +3155,20 @@ export namespace GetActiveChannel {
   export type Query = GetActiveChannelQuery;
   export type ActiveChannel = (NonNullable<GetActiveChannelQuery['activeChannel']>);
 }
+
+export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetProductsQuery = (
+  { __typename?: 'Query' }
+  & { products: (
+    { __typename?: 'ProductList' }
+    & { items: Array<(
+      { __typename?: 'Product' }
+      & Pick<Product, 'slug'>
+    )> }
+  ) }
+);
 
 export type UpdateAddressMutationVariables = Exact<{
   input: UpdateAddressInput;

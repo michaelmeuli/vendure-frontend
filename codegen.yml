@@ -1,6 +1,8 @@
 overwrite: true
 schema: "./schema.graphql"
-documents: "./src/app/**/*.graphql.ts"
+documents: 
+  - "./src/app/**/*.graphql.ts"
+  - "./scully/plugins/*.graphql.ts"
 generates:
   ./src/app/common/generated-types.ts:
     plugins:

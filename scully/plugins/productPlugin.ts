@@ -12,14 +12,12 @@ import {
     InMemoryCache,
 } from '@apollo/client';
 import { environment } from '../../src/environments/environment.prod';
-import fetch from 'cross-fetch';
 
 let { apiHost, apiPort, shopApiPath } = environment;
 
 const client = new ApolloClient({
     link: new HttpLink({
-        uri: `${apiHost}:${apiPort}/${shopApiPath}`,
-        fetch: fetch
+        uri: `${apiHost}:${apiPort}/${shopApiPath}`
     }),
     cache: new InMemoryCache(),
 });

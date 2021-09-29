@@ -2,7 +2,6 @@
 // https://github.com/asotog/scully-strapi-tutorial
 
 import { HandledRoute, registerPlugin } from '@scullyio/scully';
-import { GetProducts } from '../../src/app/common/generated-types';
 import { GET_PRODUCTS } from './productPlugin.graphql';
 import {
     ApolloClient,
@@ -11,14 +10,16 @@ import {
     gql,
     HttpLink,
     InMemoryCache,
-} from '@apollo/client/core';
+} from '@apollo/client';
 import { environment } from '../../src/environments/environment.prod';
+import fetch from 'cross-fetch';
 
 let { apiHost, apiPort, shopApiPath } = environment;
 
 const client = new ApolloClient({
     link: new HttpLink({
-        uri: `${apiHost}:${apiPort}/${shopApiPath}`
+        uri: `${apiHost}:${apiPort}/${shopApiPath}`,
+        fetch: fetch
     }),
     cache: new InMemoryCache(),
 });

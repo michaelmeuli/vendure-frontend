@@ -22,20 +22,6 @@ const client = new ApolloClient({
     cache: new InMemoryCache(),
 });
 
-
-function productPluginOld(route: string, config = {}): Promise<HandledRoute[]> {
-    return Promise.resolve([
-        { route: '/product/bergamotte-15ml' },
-        { route: '/product/basilikum-15ml' },
-        { route: '/product/lebensbaum-5ml' },
-        { route: '/product/schwarzer-pfeffer-5ml' },
-        { route: '/product/schwarzfichte-5ml' },
-        { route: '/product/blauer-rainfarn-5ml' },
-    ]);
-}
-
-export const products = 'products';
-
 async function productPlugin(
     route: string,
     config = {}
@@ -54,4 +40,4 @@ async function productPlugin(
 }
 
 const validator = async (conf) => [];
-registerPlugin('router', products, productPlugin, validator);
+registerPlugin('router', 'products', productPlugin, validator);

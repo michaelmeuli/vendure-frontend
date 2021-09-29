@@ -10,7 +10,7 @@ import {
     gql,
     HttpLink,
     InMemoryCache,
-} from '@apollo/client';
+  } from '@apollo/client/core';
 import { environment } from '../../src/environments/environment.prod';
 
 let { apiHost, apiPort, shopApiPath } = environment;

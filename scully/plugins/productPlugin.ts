@@ -1,7 +1,8 @@
+// https://strapi.io/blog/how-to-build-a-jamstack-app-with-scully-io
+// https://github.com/asotog/scully-strapi-tutorial
+
 import { HandledRoute, registerPlugin } from '@scullyio/scully';
 import { GetProducts } from '../../src/app/common/generated-types';
-import { map } from 'rxjs/operators';
-import { DataService } from '../../src/app/core/providers/data/data.service';
 import { GET_PRODUCTS } from './productPlugin.graphql';
 import {
     ApolloClient,
@@ -17,13 +18,13 @@ let { apiHost, apiPort, shopApiPath } = environment;
 
 const client = new ApolloClient({
     link: new HttpLink({
-        uri: `${apiHost}:${apiPort}/${shopApiPath}`,
-        fetch,
+        uri: `${apiHost}:${apiPort}/${shopApiPath}`
     }),
     cache: new InMemoryCache(),
 });
 
-function productPlugin(route: string, config = {}): Promise<HandledRoute[]> {
+
+function productPluginOld(route: string, config = {}): Promise<HandledRoute[]> {
     return Promise.resolve([
         { route: '/product/bergamotte-15ml' },
         { route: '/product/basilikum-15ml' },
@@ -34,38 +35,9 @@ function productPlugin(route: string, config = {}): Promise<HandledRoute[]> {
     ]);
 }
 
-function productPlugin3(dataService: DataService): Promise<HandledRoute[]> {
-    let routes: any;
-    dataService
-        .query<GetProducts.Query>(GET_PRODUCTS)
-        .pipe(
-            map((data) => data.products.items),
-            map((item) => ({
-                route: `/product/${item}`,
-            }))
-        )
-        .subscribe((items) => (routes = items));
-    console.log(routes);
-    return Promise.resolve(routes);
-}
+export const products = 'products';
 
-let routes: any;
-function productPlugin4(dataService: DataService) {
-    dataService.query<GetProducts.Query>(GET_PRODUCTS).subscribe((data) => {
-        routes = data.products.items;
-    });
-    console.log(routes);
-}
-
-function productPlugin5(route: string, config = {}): Promise<HandledRoute[]> {
-    return Promise.resolve(
-        routes.map((slug) => ({
-            route: `/product/${slug}`,
-        }))
-    );
-}
-
-async function productPlugin6(
+async function productPlugin(
     route: string,
     config = {}
 ): Promise<HandledRoute[]> {
@@ -83,4 +55,4 @@ async function productPlugin6(
 }
 
 const validator = async (conf) => [];
-registerPlugin('router', 'products', productPlugin6, validator);
+registerPlugin('router', products, productPlugin, validator);

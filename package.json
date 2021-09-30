@@ -48,6 +48,7 @@
     "braintree-web-drop-in": "^1.27.0",
     "compression": "^1.7.4",
     "core-js": "^3.6.5",
+    "cross-fetch": "^3.1.4",
     "express": "^4.15.2",
     "graphql": "^15.5.0",
     "ng2-pdf-viewer": "6.4.1",

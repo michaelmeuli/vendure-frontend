@@ -1,5 +1,5 @@
 [build]
-  command = "yarn build && yarn scully"
+  command = "scully:build"
   functions = "netlify/functions"
   publish = "dist/static"
 

@@ -18,7 +18,8 @@
     "prerender": "ng run yl-shop-frontend:prerender --routes-file routes.txt",
     "start": "npm run serve:ssr",
     "scully": "npx scully --",
-    "scully:serve": "npx scully serve --"
+    "scully:serve": "npx scully serve --",
+    "scully:build": "yarn build && yarn scully"
   },
   "private": true,
   "dependencies": {

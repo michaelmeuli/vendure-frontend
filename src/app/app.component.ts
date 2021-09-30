@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -6,6 +6,7 @@ import { StateService } from './core/providers/state/state.service';
 
 @Component({
     selector: 'sf-root',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
 })

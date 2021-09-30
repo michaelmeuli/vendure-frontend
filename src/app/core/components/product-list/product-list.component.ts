@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, combineLatest, merge, Observable, of } from 'rxjs';
@@ -27,6 +27,7 @@ import { GET_COLLECTION, SEARCH_PRODUCTS } from './product-list.graphql';
 
 @Component({
     selector: 'vsf-product-list',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './product-list.component.html',
 styleUrls: ['./product-list.component.scss'],
     })

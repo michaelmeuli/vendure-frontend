@@ -1,18 +1,9 @@
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client/core';
 import { HandledRoute, registerPlugin } from '@scullyio/scully';
+
 import { GET_PRODUCTS } from './productPlugin.graphql';
-
-import fetch from 'cross-fetch';
-// Or just: import 'cross-fetch/polyfill';
-
-import {
-    ApolloClient,
-    ApolloLink,
-    concat,
-    gql,
-    HttpLink,
-    InMemoryCache,
-} from '@apollo/client/core';
 import { environment } from '../../src/environments/environment.prod';
+import fetch from 'cross-fetch';
 
 let { apiHost, apiPort, shopApiPath } = environment;
 
@@ -24,20 +15,6 @@ const client = new ApolloClient({
     cache: new InMemoryCache(),
 });
 
-fetch('//api.github.com/users/lquixada')
-    .then((res) => {
-        if (res.status >= 400) {
-            throw new Error('Bad response from server');
-        }
-        return res.json();
-    })
-    .then((user) => {
-        console.log(user);
-    })
-    .catch((err) => {
-        console.error(err);
-    });
-
 async function productPlugin(
     route: string,
     config = {}
@@ -47,7 +24,6 @@ async function productPlugin(
     } = await client.query({
         query: GET_PRODUCTS,
     });
-    console.log(products.items[0]);
     return Promise.resolve(
         products.items.map((product) => ({
             route: `/product/${product.slug}`,

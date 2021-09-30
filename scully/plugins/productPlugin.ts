@@ -3,6 +3,26 @@ import { HandledRoute, registerPlugin } from '@scullyio/scully'
 import fetch from 'cross-fetch';
 // Or just: import 'cross-fetch/polyfill';
 
+import {
+  ApolloClient,
+  ApolloLink,
+  concat,
+  gql,
+  HttpLink,
+  InMemoryCache,
+} from '@apollo/client/core';
+import { environment } from '../../src/environments/environment.prod';
+
+let { apiHost, apiPort, shopApiPath } = environment;
+
+const client = new ApolloClient({
+  link: new HttpLink({
+      uri: `${apiHost}:${apiPort}/${shopApiPath}`,
+      fetch: fetch
+  }),
+  cache: new InMemoryCache(),
+});
+
 fetch('//api.github.com/users/lquixada')
   .then(res => {
     if (res.status >= 400) {

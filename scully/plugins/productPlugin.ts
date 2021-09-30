@@ -1,4 +1,5 @@
 import { HandledRoute, registerPlugin } from '@scullyio/scully';
+import { GET_PRODUCTS } from './productPlugin.graphql';
 
 import fetch from 'cross-fetch';
 // Or just: import 'cross-fetch/polyfill';
@@ -48,8 +49,8 @@ async function productPlugin(
     });
     console.log(products);
     return Promise.resolve(
-        products.map((slug) => ({
-            route: `/product/${slug}`,
+        products.map((product) => ({
+            route: `/product/${product.slug}`,
         }))
     );
 }

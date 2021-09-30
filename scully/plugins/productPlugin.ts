@@ -47,9 +47,9 @@ async function productPlugin(
     } = await client.query({
         query: GET_PRODUCTS,
     });
-    console.log(products);
+    console.log(products.items[0]);
     return Promise.resolve(
-        products.map((product) => ({
+        products.items.map((product) => ({
             route: `/product/${product.slug}`,
         }))
     );

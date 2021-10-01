@@ -2,7 +2,7 @@ import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client/core';
 import { HandledRoute, registerPlugin } from '@scullyio/scully';
 
 import { GET_PRODUCTS } from './productPlugin.graphql';
-import { environment } from '../../src/environments/environment.prod';
+import { environment } from '../../src/environments/environment';
 import fetch from 'cross-fetch';
 
 let { apiHost, apiPort, shopApiPath } = environment;

@@ -1,5 +1,5 @@
 [build]
-  command = "scully:build:prod"
+  command = "scully:build"
   functions = "netlify/functions"
   publish = "dist/static"
 

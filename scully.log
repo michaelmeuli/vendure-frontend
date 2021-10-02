@@ -418,3 +418,12 @@ https://scully.io/docs/learn/getting-started/installation/
 **********************************************************
 **********************************************************
       
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/category/:slug" found. Skipping
+
+No configuration for route "/account/orders/:code" found. SkippingNo configuration for route "/account/address-book/:id" found. SkippingNo configuration for route "/checkout/confirmation/:code" found. Skipping
+
+

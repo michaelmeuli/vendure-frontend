@@ -10,7 +10,7 @@ exports.environment = {
     apiPort: 3000,
     shopApiPath: 'shop-api',
     baseHref: '/',
-    tokenMethod: 'cookie',
+    tokenMethod: 'bearer',
 };
 /*
  * For easier debugging in development mode, you can import the following file

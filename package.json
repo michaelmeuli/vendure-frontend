@@ -4,8 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start:dev": "ng serve --port 4201",
-    "build:dev": "ng build",
-    "build:prod": "ng build --configuration production",
+    "build": "ng build --configuration production",
     "analyze-prod-bundle": "ng build --prod --statsJson=true && webpack-bundle-analyzer dist/browser/stats.json",
     "test": "ng test",
     "lint": "ng lint",
@@ -20,8 +19,7 @@
     "start": "npm run serve:ssr",
     "scully": "npx scully --",
     "scully:serve": "npx scully serve --",
-    "scully:build:dev": "yarn build:dev && yarn scully",
-    "scully:build:prod": "yarn build:prod && yarn scully"
+    "scully:build": "yarn build && yarn scully"
   },
   "private": true,
   "dependencies": {
